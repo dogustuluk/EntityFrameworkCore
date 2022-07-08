@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.Databas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkCore.DatabaseByScaffold", "EntityFrameworkCore.DatabaseByScaffold\EntityFrameworkCore.DatabaseByScaffold.csproj", "{C128F768-17CA-4BE5-837F-2BC92E8EEE55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkCore.CodeFirst", "EntityFrameworkCore.CodeFirst\EntityFrameworkCore.CodeFirst.csproj", "{FAFC127B-B217-4C3F-8F19-FFF4EDA5A89A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C128F768-17CA-4BE5-837F-2BC92E8EEE55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C128F768-17CA-4BE5-837F-2BC92E8EEE55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C128F768-17CA-4BE5-837F-2BC92E8EEE55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAFC127B-B217-4C3F-8F19-FFF4EDA5A89A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAFC127B-B217-4C3F-8F19-FFF4EDA5A89A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAFC127B-B217-4C3F-8F19-FFF4EDA5A89A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAFC127B-B217-4C3F-8F19-FFF4EDA5A89A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
