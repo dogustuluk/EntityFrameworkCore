@@ -25,8 +25,10 @@ namespace EntityFrameworkCore.DatabaseFirst.DAL
             Configuration = builder.Build(); //okunacak olan dosyayı hazır hale getiren kod.
             //>>>>   Uygulamanın herhangi bir yerinde appsettings.json dosyasının içerisindeki istediğimiz bir key-value çiftini okumak istersek Configuration sınıfı üzerinden okuyabiliriz.
 
-            OptionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            OptionsBuilder.UseSqlServer(Configuration.GetConnectionString("SqlCon"));
+            //>> bu kısım 2.yöntemi kullandığımız taktirde kaldırılmalı.
+            //OptionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+            //OptionsBuilder.UseSqlServer(Configuration.GetConnectionString("SqlCon"));
+            //<<
         }
     }
 }
