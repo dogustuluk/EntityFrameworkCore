@@ -13,5 +13,6 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         public int Stock { get; set; }
         public decimal Price { get; set; }
         public int Barcode { get; set; }
+        public DateTime? CreatedDate { get; set; }
     }
 }
