@@ -11,6 +11,6 @@ namespace EntityFrameworkCore.Relationships.DAL
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Product> Products { get; set; } //navigation property
+        //public List<Product> Products { get; set; } //navigation property //one to many//
     }
 }

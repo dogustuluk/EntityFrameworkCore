@@ -25,15 +25,17 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Hluent api relationship one to many start
+            //fluent api relationship one to many start
             //Her zaman "has" ifadesiyle başlanacaktır.
             //hasMany(xx.Product) >>> Category'e ait birden fazla product olacağını ifade eder.
             //WithOne(xx.Category) >>> Product'ın sadece bir tane Category'si olduğunu ifade eder.
             //HasForeignKey(xx.ForeignKeyName) >>> ikincil anahtarın belirtildiği ifadeyi açıklar.
-            
+
             //modelBuilder.Entity<Category>().HasMany(x => x.Products).WithOne(x => x.Category).HasForeignKey(x => x.Category_Id); 
-            
             //end
+            //fluent api relationship one to one
+            modelBuilder.Entity<Product>().HasOne(x => x.ProductFeature).WithOne(x => x.Product).HasForeignKey<ProductFeature>(x => x.ProductRefId); //bire bir ilişkide ef core hangi tarafın parent hangi tarafın child olduğunu bilemediği için foreign key'in hangi sınıfta olduğunu açık açık belirtmemiz gerekmektedir. Ayrıca her iki tarafın da navigation propery'sini belirtmek lazım.
+
             base.OnModelCreating(modelBuilder);
         }
 

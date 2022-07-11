@@ -15,7 +15,7 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         public decimal Price { get; set; }
         public int Barcode { get; set; }
 
-
+        //one to many start
         //EF Core'un default davranışını incelemek için alttaki iki ifadeyi siliyoruz fakat Category sınıfındaki navigation property'i silmiyoruz. Convension'un farklı çeşitlerini görmek amacıyla yapıyoruz bu örneği.
         //Bu sayede Category'den Productlara erişim olacak fakat Product'ın bağlı olduğu Category'e erişim olmayacaktır.
         //EF Core bu davranışta otomatik olarak bir foreign key ataması da yapıyor olacaktır.
@@ -28,5 +28,10 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         //public int Category_Id { get; set; } //Custom isim kullanırsak fluent api aracılığı ile foreign key olduğunu sisteme tanıtalım (2.yol)
         ////public int CategoryId { get; set; } //Convension yaklaşımına göre yani EF Core'un anlayacağı şekilde yazımıdır.
         //public Category Category { get; set; } //Navigation property
+        //end
+
+        //one to one start
+        public ProductFeature ProductFeature { get; set; }
+        //end
     }
 }
