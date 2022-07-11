@@ -13,7 +13,7 @@ namespace EntityFrameworkCore.Relationships.DAL
         public int Width { get; set; }
         public int Height { get; set; }
         public string Color { get; set; }
-        public int ProductRefId { get; set; } //Fluent API ile sisteme tanıtmak istersek.
+      //  public int ProductRefId { get; set; } //Fluent API ile sisteme tanıtmak istersek. Best practise için bunu kullanmamalıyız.
         //public int ProductId { get; set; } //EF Core one to one'da default olarak parent child ilişkisini anlamıyor. Bu noktada foreign key'i child'a vermemiz gerekiyor. (Convension)
         public Product Product { get; set; }
     }

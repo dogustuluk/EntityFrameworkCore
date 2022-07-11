@@ -67,10 +67,7 @@ namespace EntityFrameworkCore.Relationships.Migrations
             modelBuilder.Entity("EntityFrameworkCore.Relationships.DAL.ProductFeature", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Color")
                         .IsRequired()
@@ -79,16 +76,10 @@ namespace EntityFrameworkCore.Relationships.Migrations
                     b.Property<int>("Height")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductRefId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Width")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductRefId")
-                        .IsUnique();
 
                     b.ToTable("ProductFeature");
                 });
@@ -97,7 +88,7 @@ namespace EntityFrameworkCore.Relationships.Migrations
                 {
                     b.HasOne("EntityFrameworkCore.CodeFirst.DAL.Product", "Product")
                         .WithOne("ProductFeature")
-                        .HasForeignKey("EntityFrameworkCore.Relationships.DAL.ProductFeature", "ProductRefId")
+                        .HasForeignKey("EntityFrameworkCore.Relationships.DAL.ProductFeature", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

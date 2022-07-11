@@ -34,8 +34,12 @@ namespace EntityFrameworkCore.CodeFirst.DAL
             //modelBuilder.Entity<Category>().HasMany(x => x.Products).WithOne(x => x.Category).HasForeignKey(x => x.Category_Id); 
             //end
             //fluent api relationship one to one
-            modelBuilder.Entity<Product>().HasOne(x => x.ProductFeature).WithOne(x => x.Product).HasForeignKey<ProductFeature>(x => x.ProductRefId); //bire bir ilişkide ef core hangi tarafın parent hangi tarafın child olduğunu bilemediği için foreign key'in hangi sınıfta olduğunu açık açık belirtmemiz gerekmektedir. Ayrıca her iki tarafın da navigation propery'sini belirtmek lazım.
+            //modelBuilder.Entity<Product>().HasOne(x => x.ProductFeature).WithOne(x => x.Product).HasForeignKey<ProductFeature>(x => x.ProductRefId); //bire bir ilişkide ef core hangi tarafın parent hangi tarafın child olduğunu bilemediği için foreign key'in hangi sınıfta olduğunu açık açık belirtmemiz gerekmektedir. Ayrıca her iki tarafın da navigation propery'sini belirtmek lazım.
 
+            //one-to-one best practise start
+            //Child tablosundaki primary key alanını ek olarak foreign key olarak da kullanmalıyız. Eğer bunu yaparsak otomatik artan özelliğini de kapatmamız gerekmektedir lakin EF Core bunu bizim için otomatik olarak yapmış olmaktadır.
+            modelBuilder.Entity<Product>().HasOne(x => x.ProductFeature).WithOne(x => x.Product).HasForeignKey<ProductFeature>(x => x.Id); //Bu şekilde yaparsak one-to-one ilişkisindeki best practise'i yakalamış oluruz.
+            //best practise end
             base.OnModelCreating(modelBuilder);
         }
 
