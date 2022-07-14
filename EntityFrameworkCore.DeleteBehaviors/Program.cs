@@ -45,6 +45,6 @@ using (var context = new AppDbContext())
     //#1 end
     context.SaveChanges();
 
-
+   
     Console.WriteLine("İşlem Başarılı");
 }
