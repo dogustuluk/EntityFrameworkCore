@@ -80,6 +80,8 @@ using (var context = new AppDbContext())
         new(){Name = "Onur", Age = 22},
         new(){Name = "Berkan", Age=22}
     });
+    //Ef Core tarafından track edilen bir datada  herhangi bir property'sini değiştirdiğimizde Update metodunu çağırmamıza gerek yoktur, direkt olarak save changes çağırılmalıdır.
+        //Çünkü yapılan değişikliği EF Core direkt olarak algılamaktadır.
     ///#3 end
     //end
     context.SaveChanges();
@@ -87,7 +89,6 @@ using (var context = new AppDbContext())
     //end
 
 
-
-
+   
 
 }
