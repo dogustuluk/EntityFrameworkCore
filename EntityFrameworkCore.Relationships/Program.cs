@@ -33,10 +33,26 @@ using (var context = new AppDbContext())
     //context.Add(category);
     //#2 end
     //#3 start
-    var category = context.Categories.First(x => x.Name == "Kalemler");
-    var product = new Product() { Name = "Montblanc Homage to Grimms Brother", Barcode = 301, Price = 410, Stock = 7, CategoryId = category.Id };
-    context.Add(product);
+    //var category = context.Categories.First(x => x.Name == "Kalemler");
+    //var product = new Product() { Name = "Montblanc Homage to Grimms Brother", Barcode = 301, Price = 410, Stock = 7, CategoryId = category.Id };
+    //context.Add(product);
     //#3 end
+
+    //one to one data add start
+    //#1 start
+    //var category = context.Categories.First(x => x.Name == "Silgiler");
+    //var product = new Product() { Name = "silgi 1", Stock = 10, Barcode = 121, Price = 10, Category = category, ProductFeature = new() { Color = "white", Height = 32, Width = 10 } };
+    //context.Products.Add(product);
+    //#1 end
+
+    //#2 start >>> ProductFeature'dan Category'e doğru gitme. Child'dan Parent'ı eklemek.
+    var category = context.Categories.First(x => x.Name == "Silgiler");
+    var product = new Product() { Name = "silgi 2", Stock = 20, Barcode = 122, Price = 22, Category = category };
+    var productFeature = new ProductFeature() { Color = "red", Height = 22, Width = 14, Product = product };
+    context.productFeatures.Add(productFeature);
+    //#2 end
+    //end
+
     context.SaveChanges();
     Console.WriteLine("İşlem Başarılı");
     //end

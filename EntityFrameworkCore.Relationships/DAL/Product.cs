@@ -38,5 +38,9 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         public int CategoryId { get; set; }
         public Category Category { get; set; } // Product'tan Category'lere erişmemize imkan sağlayacak ve aynı zamanda Category tanımlamamıza da imkan sağlayacak.
         //end
+
+        //one to one data add start
+        public ProductFeature ProductFeature { get; set; }
+        //end
     }
 }

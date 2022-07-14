@@ -13,6 +13,7 @@ namespace EntityFrameworkCore.CodeFirst.DAL
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductFeature> productFeatures { get; set; }
 
         //public DbSet<Student> Students { get; set; }
         //public DbSet<Teacher> Teachers { get; set; } //Eğer veri tabanında AppDbContext aracılığıyla herhangi bir işlem yapılmasını istemiyorsak bu satırı silebiliriz.
