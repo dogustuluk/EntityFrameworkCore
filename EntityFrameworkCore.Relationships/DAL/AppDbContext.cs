@@ -15,8 +15,8 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductFeature> productFeatures { get; set; }
 
-        //public DbSet<Student> Students { get; set; }
-        //public DbSet<Teacher> Teachers { get; set; } //Eğer veri tabanında AppDbContext aracılığıyla herhangi bir işlem yapılmasını istemiyorsak bu satırı silebiliriz.
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Teacher> Teachers { get; set; } //Eğer veri tabanında AppDbContext aracılığıyla herhangi bir işlem yapılmasını istemiyorsak bu satırı silebiliriz.
         //many-to-many için one-to-many içeren iki tablonun birbirlerine navigate edilmesi gerekmektedir. EF Core ortaya çıkacak olan yeni çoka çok tabloyu kendisi otomatik olarak oluşturacaktır.
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

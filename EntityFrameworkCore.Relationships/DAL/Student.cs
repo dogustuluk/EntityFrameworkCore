@@ -11,6 +11,6 @@ namespace EntityFrameworkCore.Relationships.DAL
         public int Id { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
-        public List<Teacher> Teachers { get; set; } //navigation property
+        public List<Teacher> Teachers { get; set; } = new(); //navigation property
     }
 }

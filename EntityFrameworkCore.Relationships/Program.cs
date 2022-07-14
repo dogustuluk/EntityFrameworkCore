@@ -46,13 +46,42 @@ using (var context = new AppDbContext())
     //#1 end
 
     //#2 start >>> ProductFeature'dan Category'e doğru gitme. Child'dan Parent'ı eklemek.
-    var category = context.Categories.First(x => x.Name == "Silgiler");
-    var product = new Product() { Name = "silgi 2", Stock = 20, Barcode = 122, Price = 22, Category = category };
-    var productFeature = new ProductFeature() { Color = "red", Height = 22, Width = 14, Product = product };
-    context.productFeatures.Add(productFeature);
+    //var category = context.Categories.First(x => x.Name == "Silgiler");
+    //var product = new Product() { Name = "silgi 2", Stock = 20, Barcode = 122, Price = 22, Category = category };
+    //var productFeature = new ProductFeature() { Color = "red", Height = 22, Width = 14, Product = product };
+    //context.productFeatures.Add(productFeature);
     //#2 end
     //end
 
+    //many to many start
+    ////#1 start
+    //var student = new Student() { Name = "Doğuş", Age = 24 };
+    //student.Teachers.Add(new() { Name = "Bilgehan İmamoğlu" });
+    //student.Teachers.Add(new() { Name = "Ekrem Bahçekapılı" });
+    //context.Add(student);
+    ////#1 end
+    ////#2 start
+    //var teacher = new Teacher()
+    //{
+    //    Name = "Hanefi Calp",
+    //    Students = new List<Student>()
+    //    {
+    //        new Student() { Name ="Dilara", Age = 22},
+    //        new Student() { Name = "Merve" , Age = 21}
+    //    }
+    //};
+    //context.Add(teacher);
+    
+    ////#2 end
+    ///#3 start
+    var teacher = context.Teachers.First(x => x.Name == "Ekrem Bahçekapılı");
+    teacher.Students.AddRange(new List<Student>
+    {
+        new(){Name = "Onur", Age = 22},
+        new(){Name = "Berkan", Age=22}
+    });
+    ///#3 end
+    //end
     context.SaveChanges();
     Console.WriteLine("İşlem Başarılı");
     //end
