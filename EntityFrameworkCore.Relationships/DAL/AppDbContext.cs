@@ -11,8 +11,11 @@ namespace EntityFrameworkCore.CodeFirst.DAL
 {
     public class AppDbContext:DbContext
     {
-        public DbSet<Student> Students { get; set; }
-        public DbSet<Teacher> Teachers { get; set; } //Eğer veri tabanında AppDbContext aracılığıyla herhangi bir işlem yapılmasını istemiyorsak bu satırı silebiliriz.
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+
+        //public DbSet<Student> Students { get; set; }
+        //public DbSet<Teacher> Teachers { get; set; } //Eğer veri tabanında AppDbContext aracılığıyla herhangi bir işlem yapılmasını istemiyorsak bu satırı silebiliriz.
         //many-to-many için one-to-many içeren iki tablonun birbirlerine navigate edilmesi gerekmektedir. EF Core ortaya çıkacak olan yeni çoka çok tabloyu kendisi otomatik olarak oluşturacaktır.
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -44,14 +47,14 @@ namespace EntityFrameworkCore.CodeFirst.DAL
 
             //many-to-many start
             //Custom many-to-many table on fluent api
-            modelBuilder.Entity<Student>()
-                .HasMany(x => x.Teachers)
-                .WithMany(x => x.Students)
-                .UsingEntity<Dictionary<string, object>>(
-                "CustomManyToManyTable",
-                x=> x.HasOne<Teacher>().WithMany().HasForeignKey("Teacher_Id").HasConstraintName("FK__TeacherId"),
-                x=> x.HasOne<Student>().WithMany().HasForeignKey("Student_Id").HasConstraintName("FK__StudentId")
-                );
+            //modelBuilder.Entity<Student>()
+            //    .HasMany(x => x.Teachers)
+            //    .WithMany(x => x.Students)
+            //    .UsingEntity<Dictionary<string, object>>(
+            //    "CustomManyToManyTable",
+            //    x=> x.HasOne<Teacher>().WithMany().HasForeignKey("Teacher_Id").HasConstraintName("FK__TeacherId"),
+            //    x=> x.HasOne<Student>().WithMany().HasForeignKey("Student_Id").HasConstraintName("FK__StudentId")
+            //    );
             //end
             base.OnModelCreating(modelBuilder);
         }

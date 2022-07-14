@@ -21,22 +21,7 @@ namespace EntityFrameworkCore.Relationships.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("CustomManyToManyTable", b =>
-                {
-                    b.Property<int>("Student_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Teacher_Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Student_Id", "Teacher_Id");
-
-                    b.HasIndex("Teacher_Id");
-
-                    b.ToTable("CustomManyToManyTable");
-                });
-
-            modelBuilder.Entity("EntityFrameworkCore.Relationships.DAL.Student", b =>
+            modelBuilder.Entity("EntityFrameworkCore.CodeFirst.DAL.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,19 +29,30 @@ namespace EntityFrameworkCore.Relationships.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Age")
+                    b.Property<int>("Barcode")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Stock")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Students");
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("EntityFrameworkCore.Relationships.DAL.Teacher", b =>
+            modelBuilder.Entity("EntityFrameworkCore.Relationships.DAL.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -70,24 +66,23 @@ namespace EntityFrameworkCore.Relationships.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teachers");
+                    b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("CustomManyToManyTable", b =>
+            modelBuilder.Entity("EntityFrameworkCore.CodeFirst.DAL.Product", b =>
                 {
-                    b.HasOne("EntityFrameworkCore.Relationships.DAL.Student", null)
-                        .WithMany()
-                        .HasForeignKey("Student_Id")
+                    b.HasOne("EntityFrameworkCore.Relationships.DAL.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK__StudentId");
+                        .IsRequired();
 
-                    b.HasOne("EntityFrameworkCore.Relationships.DAL.Teacher", null)
-                        .WithMany()
-                        .HasForeignKey("Teacher_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK__TeacherId");
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("EntityFrameworkCore.Relationships.DAL.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
