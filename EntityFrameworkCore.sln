@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.DeleteB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.DatabaseGeneratedAttribute", "EntityFrameworkCore.DatabaseGeneratedAttribute\EntityFrameworkCore.DatabaseGeneratedAttribute.csproj", "{9DF8E66E-E422-4A25-A035-71BDADDB84B0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.RelatedDataLoads", "EntityFrameworkCore.RelatedDataLoads\EntityFrameworkCore.RelatedDataLoads.csproj", "{05E1EA94-CA72-40B7-9D08-F9E1A664B8BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{9DF8E66E-E422-4A25-A035-71BDADDB84B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DF8E66E-E422-4A25-A035-71BDADDB84B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DF8E66E-E422-4A25-A035-71BDADDB84B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05E1EA94-CA72-40B7-9D08-F9E1A664B8BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05E1EA94-CA72-40B7-9D08-F9E1A664B8BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05E1EA94-CA72-40B7-9D08-F9E1A664B8BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05E1EA94-CA72-40B7-9D08-F9E1A664B8BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
