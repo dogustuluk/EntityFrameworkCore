@@ -1,6 +1,7 @@
 ﻿using EntityFrameworkCore.Relationships.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,10 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         //public DbSet<Teacher> Teachers { get; set; } 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            //Loglama Türleri 
+                //Debug,    Information,    Trace,  Warning,    Error,  Critical
             Initializer.Build(); 
-            optionsBuilder.UseSqlServer(Initializer.Configuration.GetConnectionString("SqlCon"));
+            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information).UseLazyLoadingProxies().UseSqlServer(Initializer.Configuration.GetConnectionString("SqlCon"));
         }
         public override int SaveChanges()
         {
