@@ -29,6 +29,7 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Product>().Property(x => x.Price).HasPrecision(9, 2);
             base.OnModelCreating(modelBuilder);
         }
 
