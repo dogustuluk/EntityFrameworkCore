@@ -12,12 +12,12 @@ using (var context = new AppDbContext())
     //TPH (table per hierarchy)
     //EF Core default davranış olarak bunu yapar. Hiyearşi başına tek bir tablo oluşturulur. Context'e miras alınan sınıf tanıtılmaz.
     //Eğer EF Core'un default davranışını istemiyorsak base sınıfı da context'e geçeriz. Bu sayede EF Core veri tabanına kaydederken base sınıfı kayıt eder ve miras alan sınıfların sağladığı ek özellikleri de bu sınıfın içerisine ekler. Fakat buradaki farklı olan kısım EF Core'un alt sınıftan gelen özelliği "Discriminant" olarak ayırmasıyla başlar.
-   //>>>>>>>>>>>>>>>>>>> Genellikle base sınıfları context'e geçip EF Core'un default davranışını kırmak doğru değildir. Fakat bazı senaryolarda, özellikle çok fazla tablo oluşacağı zaman işimize yarayabilir. Bu durumun tek dezavantajı ise; atama yapılmayan alanlara null değer atamasıdır.
-    
+    //>>>>>>>>>>>>>>>>>>> Genellikle base sınıfları context'e geçip EF Core'un default davranışını kırmak doğru değildir. Fakat bazı senaryolarda, özellikle çok fazla tablo oluşacağı zaman işimize yarayabilir. Bu durumun tek dezavantajı ise; atama yapılmayan alanlara null değer atamasıdır.
+
     //tpt (table per type)
-        //Her bir entity için bir tablo oluşmasını istiyorsak kullanmalıyız.
-        //Bunun için her bir entity'i context'te "OnModelCreating'te" geçmeliyiz.
-   
+    //Her bir entity için bir tablo oluşmasını istiyorsak kullanmalıyız.
+    //Bunun için her bir entity'i context'te "OnModelCreating'te" geçmeliyiz.
+    //EF Core aralarındaki ilişkiyi çoka çok olarak tanımlamaktadır.
 
 
     // context.Persons.Add(new Manager() { FirstName = "Manager 1", LastName = "M", Age = 24, Grade = 1 });
@@ -27,11 +27,35 @@ using (var context = new AppDbContext())
     var employees = context.Employees.ToList();
     var persons = context.Persons.ToList();
 
+    //persons.ForEach(person =>
+    //{
+    //    switch (person)
+    //    {
+    //        case Manager manager: //Gelen dataları ilgili sınıfa casting işlemi uygulayarak, o sınıfa ait olup olmadığını kontrol ediyoruz.
+    //            Console.WriteLine($"Manager Sınıfı : {manager.FirstName} {manager.LastName} - {manager.Age} - {manager.Grade}");
+    //            break;
+
+    //        case Employee employee:
+    //            Console.WriteLine($"Employee sınıfı : {employee.FirstName} {employee.LastName} - {employee.Age} - {employee.Salary}");
+    //            break;
+
+    //        default:
+    //            break;
+    //    }
+    //});
+
+    //context.Managers.Add(new() { FirstName = "M1", LastName = "manager", Age = 24, Grade = 1 });
+    //context.Employees.Add(new() { FirstName = "E1", LastName = "employee", Age = 24, Salary = 5000 });
+
+    //context.Persons.Add(new Manager() { FirstName = "M2", LastName = "M2", Age = 25, Grade = 2 });
+    //context.Persons.Add(new Employee() { FirstName = "E2", LastName = "E2", Age = 25, Salary = 7500});
+    //context.SaveChanges();
+
     persons.ForEach(person =>
     {
         switch (person)
         {
-            case Manager manager:
+            case Manager manager: //Gelen dataları ilgili sınıfa casting işlemi uygulayarak, o sınıfa ait olup olmadığını kontrol ediyoruz.
                 Console.WriteLine($"Manager Sınıfı : {manager.FirstName} {manager.LastName} - {manager.Age} - {manager.Grade}");
                 break;
 
@@ -45,4 +69,7 @@ using (var context = new AppDbContext())
     });
 
     Console.WriteLine("İşlem Başarılı");
+
+
+
 }

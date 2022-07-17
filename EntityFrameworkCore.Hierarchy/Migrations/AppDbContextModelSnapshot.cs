@@ -32,10 +32,6 @@ namespace EntityFrameworkCore.Hierarchy.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -46,9 +42,7 @@ namespace EntityFrameworkCore.Hierarchy.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Persons");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("BasePerson");
+                    b.ToTable("Persons", (string)null);
                 });
 
             modelBuilder.Entity("EntityFrameworkCore.Hierarchy.DAL.Employee", b =>
@@ -59,7 +53,7 @@ namespace EntityFrameworkCore.Hierarchy.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasDiscriminator().HasValue("Employee");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("EntityFrameworkCore.Hierarchy.DAL.Manager", b =>
@@ -69,7 +63,25 @@ namespace EntityFrameworkCore.Hierarchy.Migrations
                     b.Property<int>("Grade")
                         .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("Manager");
+                    b.ToTable("Managers", (string)null);
+                });
+
+            modelBuilder.Entity("EntityFrameworkCore.Hierarchy.DAL.Employee", b =>
+                {
+                    b.HasOne("EntityFrameworkCore.Hierarchy.DAL.BasePerson", null)
+                        .WithOne()
+                        .HasForeignKey("EntityFrameworkCore.Hierarchy.DAL.Employee", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EntityFrameworkCore.Hierarchy.DAL.Manager", b =>
+                {
+                    b.HasOne("EntityFrameworkCore.Hierarchy.DAL.BasePerson", null)
+                        .WithOne()
+                        .HasForeignKey("EntityFrameworkCore.Hierarchy.DAL.Manager", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

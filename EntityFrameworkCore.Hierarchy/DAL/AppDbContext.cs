@@ -41,9 +41,9 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //TPT (table per type)
-            //modelBuilder.Entity<BasePerson>().ToTable("Persons");
-            //modelBuilder.Entity<Employee>().ToTable("Employees");
-            //modelBuilder.Entity<Manager>().ToTable("Managers");
+            modelBuilder.Entity<BasePerson>().ToTable("Persons");
+            modelBuilder.Entity<Employee>().ToTable("Employees");
+            modelBuilder.Entity<Manager>().ToTable("Managers");
             //modelBuilder.Entity<Product>().Property(x => x.Price).HasPrecision(9, 2);
             base.OnModelCreating(modelBuilder);
         }
