@@ -16,7 +16,7 @@ namespace EntityFrameworkCore.DatabaseFirst.DAL
 
         //Ardından AppDbContext'teki options nesnesini belirtmemiz gerekmektedir.
         public static DbContextOptionsBuilder<AppDbContext> OptionsBuilder; //veri tabanı ile ilgili options'ları belirteceğimiz yerdir.
-
+        
         public static void Build() //static olarak tanımlamamızın sebebi ise>>>>>> içerisinde bulunduğu sınıftan bir nesne örneği almak istemiyoruz, nokta ifadesi ile erişebilmek istiyoruz. Nesne örneğini almamıza gerek yok çünkü içerisinde static ifadelerimiz olacaktır. Çünkü uygulama ayağa kalktığı zaman veri tabanı ile ilgili ayarlarımız da bir kere set edilecek.
         {
             //öncelikle appsettings.json dosyamızı almamız gerekmektedir.

@@ -47,9 +47,9 @@ using (var context = new AppDbContext())
     //context.Managers.Add(new() { FirstName = "M1", LastName = "manager", Age = 24, Grade = 1 });
     //context.Employees.Add(new() { FirstName = "E1", LastName = "employee", Age = 24, Salary = 5000 });
 
-    //context.Persons.Add(new Manager() { FirstName = "M2", LastName = "M2", Age = 25, Grade = 2 });
-    //context.Persons.Add(new Employee() { FirstName = "E2", LastName = "E2", Age = 25, Salary = 7500});
-    //context.SaveChanges();
+    context.Persons.Add(new Manager() { FirstName = "M2", LastName = "M2", Age = 25, Grade = 2 });
+    context.Persons.Add(new Employee() { FirstName = "E2", LastName = "E2", Age = 25, Salary = 7500});
+    context.SaveChanges();
 
     persons.ForEach(person =>
     {
