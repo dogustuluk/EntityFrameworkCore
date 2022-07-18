@@ -14,11 +14,11 @@ namespace EntityFrameworkCore.CodeFirst.DAL
 {
     public class AppDbContext:DbContext
     {
-        public DbSet<Category> Categories { get; set; }
+       // public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<ProductFeature> productFeatures { get; set; }
-        public DbSet<ProductFull> ProductFulls { get; set; }
-        public DbSet<PersonKeyless> PersonKeylesses { get; set; }
+        //public DbSet<ProductFeature> productFeatures { get; set; }
+        //public DbSet<ProductFull> ProductFulls { get; set; }
+        //public DbSet<PersonKeyless> PersonKeylesses { get; set; }
 
 
         //public DbSet<Student> Students { get; set; }
@@ -60,7 +60,13 @@ namespace EntityFrameworkCore.CodeFirst.DAL
             ///-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
             //Keyless entity type start
-            modelBuilder.Entity<ProductFull>().HasNoKey();
+            //  modelBuilder.Entity<ProductFull>().HasNoKey();
+            //End
+
+            //Entity Properties Start
+            modelBuilder.Entity<Product>().Ignore(x => x.Barcode); //Bu sayede Barcode alanını veri tabanında bir sütun olarak kaydedilmesinin olmamasını sağlamış oluruz.
+            modelBuilder.Entity<Product>().Property(x => x.Name).IsUnicode(false); //Bu kod ile beraber Product'ın Name alanı nvarchar yerine varchar olarak tutuluyor olacak. Veri tabanının daha performanslı olmasını sağlamış olduk.
+            modelBuilder.Entity<Product>().Property(x => x.URL).HasColumnType("varchar(500)").HasColumnName("ProductURL");
             //End
             base.OnModelCreating(modelBuilder);
         }

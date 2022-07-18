@@ -13,6 +13,7 @@ namespace EntityFrameworkCore.CodeFirst.DAL
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string URL { get; set; }
         public int Stock { get; set; }
         [Precision(9,2)]
         public decimal Price { get; set; }

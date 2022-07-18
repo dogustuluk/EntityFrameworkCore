@@ -25,7 +25,6 @@ using (var context = new AppDbContext())
     //Primary key içermeyen tablolarımızı map'lemek istediğimizde kullanabiliriz.
 
     //EF Core'da linq sorgusu yazmak yerine ham sql sorgusu yazdığımızde geriye herhangi bir id'ye sahip olmayan bir tablo dönebilir ve böyle bir tabloyu bir entity ile karşılamak istediğimizde keyless entity type'ı kullanabiliriz.
-    //Keyless Entity Types End
     //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //var category = new Category() { Name = "Kalemler"};
     //category.Products.Add(new() { Name = "Kalem 1", Barcode = 111, Price = 100, Stock = 10, ProductFeature = new ProductFeature() {Color = "Red", Height =25, Width =40 } });
@@ -34,11 +33,18 @@ using (var context = new AppDbContext())
     //context.Categories.Add(category);
     //context.SaveChanges();
 
-    var productFull = context.ProductFulls.FromSqlRaw(@"select p.Id 'Product_Id',p.Name 'ProductName', pf.Color 'ProductColor', c.Name 'ProductCategory', p.Price 'ProductPrice'  from Products p
-join productFeatures pf on p.Id = pf.Id
-join Categories c on p.CategoryId = c.Id").ToList();
+//    var productFull = context.ProductFulls.FromSqlRaw(@"select p.Id 'Product_Id',p.Name 'ProductName', pf.Color 'ProductColor', c.Name 'ProductCategory', p.Price 'ProductPrice'  from Products p
+//join productFeatures pf on p.Id = pf.Id
+//join Categories c on p.CategoryId = c.Id").ToList();
     //yukarıdaki sql sorgusunda tek tırnak içerisinde belirtilen isimler ile alınan entity'deki property isimleri aynı olmak zorundadır.
     //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //Keyless Entity Types End
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    //Entity Properties
+    //[NotMapping],     [Column("Name")] : [Column(TypeName="Nvarchar(200)")],      [[Unicode(false)]] : varchar
+    //[NotMapping]>>>>>>>>> Bir entity içerisinde bir property'miz vardır. Ama bu property'nin veri tabanında ilgili tabloda bir sütun olarak oluşmasını istemeyebiliriz. Kendimizin kod tarafında doldurmasını istediğimiz bir property olabilir. Bu gibi durumlarda NotMapping attribute'ünü kullanabiliriz. Fluen api tarafındaki karşılığı ise Ignore adlı metottur.
+    //
 
     Console.WriteLine("İşlem Başarılı");
 
