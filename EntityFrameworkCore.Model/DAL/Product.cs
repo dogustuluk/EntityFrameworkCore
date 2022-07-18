@@ -14,6 +14,7 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         public int Id { get; set; }
         public string Name { get; set; }
         public int Stock { get; set; }
+        [Precision(9,2)]
         public decimal Price { get; set; }
         public int Barcode { get; set; }
 
