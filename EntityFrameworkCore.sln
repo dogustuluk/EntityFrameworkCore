@@ -28,6 +28,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.Hierarc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.Model", "EntityFrameworkCore.Model\EntityFrameworkCore.Model.csproj", "{61D84B3A-7F16-43D9-B315-73C351AC7A76}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.Indexes", "EntityFrameworkCore.Indexes\EntityFrameworkCore.Indexes.csproj", "{CCAFBBB5-A76D-4D0B-8494-5466E316D356}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,10 @@ Global
 		{61D84B3A-7F16-43D9-B315-73C351AC7A76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61D84B3A-7F16-43D9-B315-73C351AC7A76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61D84B3A-7F16-43D9-B315-73C351AC7A76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCAFBBB5-A76D-4D0B-8494-5466E316D356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCAFBBB5-A76D-4D0B-8494-5466E316D356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCAFBBB5-A76D-4D0B-8494-5466E316D356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCAFBBB5-A76D-4D0B-8494-5466E316D356}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
