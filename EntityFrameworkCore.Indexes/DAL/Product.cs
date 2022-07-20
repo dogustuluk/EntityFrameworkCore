@@ -21,6 +21,8 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         public int Stock { get; set; }
         [Precision(9,2)]
         public decimal Price { get; set; }
+        [Precision(9, 2)]
+        public decimal DiscountPrice { get; set; }
         public int Barcode { get; set; }
 
         //public virtual Category Category { get; set; }

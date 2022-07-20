@@ -46,7 +46,9 @@ namespace EntityFrameworkCore.CodeFirst.DAL
             //modelBuilder.Entity<Product>().HasIndex(x => x.Name);
             modelBuilder.Entity<Product>().HasIndex(x => new { x.Name, x.URL });
             modelBuilder.Entity<Product>().HasIndex(x => x.Name).IncludeProperties(x => new { x.Price, x.URL }); //included properties kullanırsak eğer biz Name'e bağlı bir sorgu yapıp çıkan sonuçların name'i ile beraber hem price'ı hem de url'i index tablosundan çok hızlı bir şekilde gelsin istersek bu kodu yazarız.
-                        //>sorgusu: context.products.where(x => x.name =="kalem1").select(x => new {name = x.name, price = x.price, url = x.url})
+                                                                                                                 //>sorgusu: context.products.where(x => x.name =="kalem1").select(x => new {name = x.name, price = x.price, url = x.url})
+            modelBuilder.Entity<Product>().HasCheckConstraint("PriceDiscountPriceCheck", "[Price]>[DiscountPrice]"); //Veri tabanında da kısıtlama olmasını istiyorsak "CheckConstraint" kullanırız.
+
             base.OnModelCreating(modelBuilder);
         }
 
