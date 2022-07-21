@@ -174,24 +174,31 @@ using (var context = new AppDbContext())
     //FULL OUTTER JOİN END
 
     //RAW SQL QUERY START
-    var id = 3;
-    decimal price = 100;
-    var products = await context.Products.FromSqlRaw("select * from products").ToListAsync();
+    //var id = 3;
+    //decimal price = 100;
+    //var products = await context.Products.FromSqlRaw("select * from products").ToListAsync();
 
 
-    //parametre alarak sorgu yapma
-    var product = await context.Products.FromSqlRaw("select * from products where price>{0}", id).FirstAsync();
+    ////parametre alarak sorgu yapma
+    //var product = await co ntext.Products.FromSqlRaw("select * from products where price>{0}", id).FirstAsync();
 
-    var products2 = await context.Products.FromSqlRaw("select * from products where price > {0}", price).ToListAsync();
+    //var products2 = await context.Products.FromSqlRaw("select * from products where price > {0}", price).ToListAsync();
 
-    var products3 = await context.Products.FromSqlInterpolated($"select * from products where price > {price}").ToListAsync();
+    //var products3 = await context.Products.FromSqlInterpolated($"select * from products where price > {price}").ToListAsync();
 
-    //-----------
-    //Custom Query
+    ////-----------
+    ////Custom Query
 
-    var products4 = await context.productEseentials.FromSqlRaw("select Name,Price from products").ToListAsync(); //Eğer id alanımız yok ise ya da almayacak isek context'e gidip hasNoKey ile işaretleme yapmamız gerekmektedir.
+    //var products4 = await context.productEseentials.FromSqlRaw("select Name,Price from products").ToListAsync(); //Eğer id alanımız yok ise ya da almayacak isek context'e gidip hasNoKey ile işaretleme yapmamız gerekmektedir.
 
-    var products5 = await context.productWithFeatures.FromSqlRaw("select p.Id,p.Name, p.Price, pf.Color, pf.Height from Products p inner join productFeatures pf on p.Id = pf.Id ").ToListAsync();
+    //var products5 = await context.productWithFeatures.FromSqlRaw("select p.Id,p.Name, p.Price, pf.Color, pf.Height from Products p inner join productFeatures pf on p.Id = pf.Id ").ToListAsync();
+    //------------------------------------------------------------------------------------------
+
+    //ToSqlQuery
+    //her seferinde "select *" yazmak yerine ön tanımlı sql cümlecikleri yazmak için.
+    //Bunun için ToSqlQuery metodunu OnModelCreating metodu içerisinde kullanırız.
+    var productsToSqlQuery = context.Products.Where(x => x.Price > 100).ToList(); //istersek burda "where" ile şart ekleyebiliriz. Eklenen bu şart direkt olarak OnModelCreating'ten gelen hazır sql cümleciğine eklenir.
+
     //RAW SQL QUERY END
     Console.WriteLine("İşlem Başarılı");
 

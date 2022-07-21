@@ -25,7 +25,8 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         {
             
             Initializer.Build(); 
-            optionsBuilder.UseSqlServer(Initializer.Configuration.GetConnectionString("SqlCon"));
+            optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information).UseSqlServer(Initializer.Configuration.GetConnectionString("SqlCon"));
+            
         }
         public override int SaveChanges()
         {
@@ -36,7 +37,7 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         {
             modelBuilder.Entity<ProductEseential>().HasNoKey();
             modelBuilder.Entity<ProductWithFeature>().HasNoKey();
-
+            modelBuilder.Entity<ProductEseential>().ToSqlQuery("select Name, Price from Products"); //ToSqlQuery > hazır sql cümleciği oluşturuldu.
             base.OnModelCreating(modelBuilder);
         }
 
