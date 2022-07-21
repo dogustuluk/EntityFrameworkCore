@@ -145,33 +145,53 @@ using (var context = new AppDbContext())
     //EF Core tarafında yoktur, custom linq ile yapıyor olucaz.
     //her iki tablonun dataları ve kesişimlerinden oluşmaktadır.
     //left ve right join'de olduğu gibi outter join'de de query syntax ile yazılabilir, method syntax desteği yoktur.
-    var leftJoin = await (from p in context.Products
-                          join pf in context.productFeatures on p.Id equals pf.Id into pfList
-                          from pf in pfList.DefaultIfEmpty()
-                          select new
-                          {
-                              pName = p.Name,
-                              pfColor = pf.Color,
-                              pfWidth = (int?)pf.Width
-                          }).ToListAsync();
+    //var leftJoin = await (from p in context.Products
+    //                      join pf in context.productFeatures on p.Id equals pf.Id into pfList
+    //                      from pf in pfList.DefaultIfEmpty()
+    //                      select new
+    //                      {
+    //                          pName = p.Name,
+    //                          pfColor = pf.Color,
+    //                          pfWidth = (int?)pf.Width
+    //                      }).ToListAsync();
 
-    var rightJoin = await (from pf in context.productFeatures
-                           join p in context.Products on pf.Id equals p.Id into pList
-                           from p in pList.DefaultIfEmpty()
-                           select new
-                           {
-                               pName = p.Name,
-                               pfColor = pf.Color,
-                               pfWidth = (int?)pf.Width
-                           }).ToListAsync();
+    //var rightJoin = await (from pf in context.productFeatures
+    //                       join p in context.Products on pf.Id equals p.Id into pList
+    //                       from p in pList.DefaultIfEmpty()
+    //                       select new
+    //                       {
+    //                           pName = p.Name,
+    //                           pfColor = pf.Color,
+    //                           pfWidth = (int?)pf.Width
+    //                       }).ToListAsync();
 
-    var outterJoin = leftJoin.Union(rightJoin); //union ifadesi birleştirmek için kullanılır.
+    //var outterJoin = leftJoin.Union(rightJoin); //union ifadesi birleştirmek için kullanılır.
 
-    outterJoin.ToList().ForEach (x =>
-    {
-        Console.WriteLine($"{x.pName} - {x.pfColor} - {x.pfWidth}");
-    }) ;
+    //outterJoin.ToList().ForEach (x =>
+    //{
+    //    Console.WriteLine($"{x.pName} - {x.pfColor} - {x.pfWidth}");
+    //}) ;
+    //FULL OUTTER JOİN END
 
+    //RAW SQL QUERY START
+    var id = 3;
+    decimal price = 100;
+    var products = await context.Products.FromSqlRaw("select * from products").ToListAsync();
+
+
+    //parametre alarak sorgu yapma
+    var product = await context.Products.FromSqlRaw("select * from products where price>{0}", id).FirstAsync();
+
+    var products2 = await context.Products.FromSqlRaw("select * from products where price > {0}", price).ToListAsync();
+
+    var products3 = await context.Products.FromSqlInterpolated($"select * from products where price > {price}").ToListAsync();
+
+    //-----------
+    //Custom Query
+
+
+
+    //RAW SQL QUERY END
     Console.WriteLine("İşlem Başarılı");
 
 
