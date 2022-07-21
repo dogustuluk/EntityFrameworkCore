@@ -2,6 +2,7 @@
 using EntityFrameworkCore.CodeFirst.DAL;
 using EntityFrameworkCore.Relationships.DAL;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 Initializer.Build();
 
@@ -115,30 +116,61 @@ using (var context = new AppDbContext())
     //Right Join >>> Bu join tipinde hem kesişen alanlar hem de sağ tarafta bulunan tablonun tüm alanları alınmaktadır.
     //EF Core tarafında left ya da right join yoktur ama custom linq sorguları yazılarak yapılabilir. Bunların adı left - right join olarak adlandırılmaz.
 
-    var leftJoinResult = (from p in context.Products
-                  join pf in context.productFeatures on p.Id equals pf.Id into pfList
-                  from pf in pfList.DefaultIfEmpty()
-                  select new 
-                  {
-                      ProductName = p.Name,
-                      ProductColor = pf.Color, //Nullable hatası almamamızın nedeni ise string değerlerin referans tipli olmasından kaynaklanmasıdır.
-                      ProductHeight =(int?) pf.Height == null ? 0 : pf.Height //Eğer "(int?)" yazmazsak nullable hatası alırız.
-                  }
-                 ).ToList();
+    //var leftJoinResult = (from p in context.Products
+    //              join pf in context.productFeatures on p.Id equals pf.Id into pfList
+    //              from pf in pfList.DefaultIfEmpty()
+    //              select new 
+    //              {
+    //                  ProductName = p.Name,
+    //                  ProductColor = pf.Color, //Nullable hatası almamamızın nedeni ise string değerlerin referans tipli olmasından kaynaklanmasıdır.
+    //                  ProductHeight =(int?) pf.Height == null ? 0 : pf.Height //Eğer "(int?)" yazmazsak nullable hatası alırız.
+    //              }
+    //             ).ToList();
 
 
-    var rightJoinResuly = await (from pf in context.productFeatures
-                                 join p in context.Products on pf.Id equals p.Id into pList
-                                 from p in pList.DefaultIfEmpty()
-                                 select new
-                                 {
-                                     productName = p.Name,
-                                     productPrice = (decimal?)p.Price,
-                                     productColor = pf.Color,
-                                     productHeight =pf.Height
-                                 }).ToListAsync();
+    //var rightJoinResuly = await (from pf in context.productFeatures
+    //                             join p in context.Products on pf.Id equals p.Id into pList
+    //                             from p in pList.DefaultIfEmpty()
+    //                             select new
+    //                             {
+    //                                 productName = p.Name,
+    //                                 productPrice = (decimal?)p.Price,
+    //                                 productColor = pf.Color,
+    //                                 productHeight =pf.Height
+    //                             }).ToListAsync();
 
     //LEFT - RIGHT JOIN END
+
+    //FULL OUTTER JOIN
+    //EF Core tarafında yoktur, custom linq ile yapıyor olucaz.
+    //her iki tablonun dataları ve kesişimlerinden oluşmaktadır.
+    //left ve right join'de olduğu gibi outter join'de de query syntax ile yazılabilir, method syntax desteği yoktur.
+    var leftJoin = await (from p in context.Products
+                          join pf in context.productFeatures on p.Id equals pf.Id into pfList
+                          from pf in pfList.DefaultIfEmpty()
+                          select new
+                          {
+                              pName = p.Name,
+                              pfColor = pf.Color,
+                              pfWidth = (int?)pf.Width
+                          }).ToListAsync();
+
+    var rightJoin = await (from pf in context.productFeatures
+                           join p in context.Products on pf.Id equals p.Id into pList
+                           from p in pList.DefaultIfEmpty()
+                           select new
+                           {
+                               pName = p.Name,
+                               pfColor = pf.Color,
+                               pfWidth = (int?)pf.Width
+                           }).ToListAsync();
+
+    var outterJoin = leftJoin.Union(rightJoin); //union ifadesi birleştirmek için kullanılır.
+
+    outterJoin.ToList().ForEach (x =>
+    {
+        Console.WriteLine($"{x.pName} - {x.pfColor} - {x.pfWidth}");
+    }) ;
 
     Console.WriteLine("İşlem Başarılı");
 
