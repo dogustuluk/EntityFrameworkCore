@@ -189,8 +189,9 @@ using (var context = new AppDbContext())
     //-----------
     //Custom Query
 
+    var products4 = await context.productEseentials.FromSqlRaw("select Name,Price from products").ToListAsync(); //Eğer id alanımız yok ise ya da almayacak isek context'e gidip hasNoKey ile işaretleme yapmamız gerekmektedir.
 
-
+    var products5 = await context.productWithFeatures.FromSqlRaw("select p.Id,p.Name, p.Price, pf.Color, pf.Height from Products p inner join productFeatures pf on p.Id = pf.Id ").ToListAsync();
     //RAW SQL QUERY END
     Console.WriteLine("İşlem Başarılı");
 
