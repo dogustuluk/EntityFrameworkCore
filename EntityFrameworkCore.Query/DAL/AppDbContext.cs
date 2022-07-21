@@ -16,6 +16,8 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         public DbSet<ProductEseential> productEseentials { get; set; }
         public DbSet<ProductWithFeature> productWithFeatures { get; set; }
 
+        public DbSet<ProductFull> productFulls { get; set; }
+
         //public DbSet<Student> Students { get; set; }
         //public DbSet<Teacher> Teachers { get; set; }
         //
@@ -38,6 +40,7 @@ namespace EntityFrameworkCore.CodeFirst.DAL
             modelBuilder.Entity<ProductEseential>().HasNoKey();
             modelBuilder.Entity<ProductWithFeature>().HasNoKey();
             modelBuilder.Entity<ProductEseential>().ToSqlQuery("select Name, Price from Products"); //ToSqlQuery > hazır sql cümleciği oluşturuldu.
+            modelBuilder.Entity<ProductFull>().HasNoKey().ToView("productwithfeature");
             base.OnModelCreating(modelBuilder);
         }
 

@@ -197,8 +197,16 @@ using (var context = new AppDbContext())
     //ToSqlQuery
     //her seferinde "select *" yazmak yerine ön tanımlı sql cümlecikleri yazmak için.
     //Bunun için ToSqlQuery metodunu OnModelCreating metodu içerisinde kullanırız.
-    var productsToSqlQuery = context.Products.Where(x => x.Price > 100).ToList(); //istersek burda "where" ile şart ekleyebiliriz. Eklenen bu şart direkt olarak OnModelCreating'ten gelen hazır sql cümleciğine eklenir.
+    // var productsToSqlQuery = context.Products.Where(x => x.Price > 100).ToList(); //istersek burda "where" ile şart ekleyebiliriz. Eklenen bu şart direkt olarak OnModelCreating'ten gelen hazır sql cümleciğine eklenir.
+    //----------------------------------------------------
+    // 0413 04 //
 
+    //ToView Method Start
+    //View'ler gerçek tablolar değildir, ön tanımlı sql cümlecikleri olarak düşünülebilir. Sanal tablolardır.
+    //View'lerde insert, update, delete gibi metotlar uygulanması sağlıklı değildir. HasNoKey ile işaretlemek iyi olacaktır.
+    var productToView = context.productFulls.ToList();
+
+    //ToView Method End
     //RAW SQL QUERY END
     Console.WriteLine("İşlem Başarılı");
 
