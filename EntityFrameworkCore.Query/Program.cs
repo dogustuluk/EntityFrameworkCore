@@ -8,13 +8,14 @@ Initializer.Build();
 
 using (var context = new AppDbContext())
 {
-    //Query
 
+    #region Data-add
     //context.People.Add(new() { Name = "Deniz", Phone = "05335465213" });
     //context.People.Add(new() { Name = "Sena", Phone = "05452367898" });
-    //context.SaveChanges();
+    //context.SaveChanges(); 
+    #endregion
 
-    //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    #region Client vs Server Evaluation
     //Client vs Server Evaluation Start
     //var persons = context.People.Where(x => FormatPhone (x.Phone) == "05335465213").ToList(); //>>Bu haliyle çalışmaz çünkü EF Core Server'a gönderdiği metotlarda custom bir metoda yer veremez. Bunu çözmek için aşağıdaki kod yazılmalıdır.
     //  var person1 = context.People.ToList().Where(x => FormatPhone(x.Phone) == "5335465213").ToList();// Bu kod ile ilk karşılaşılan "ToList" kısmında ef core tüm datayı memory'e alır ve devamında olan sorguyı client tarafta çalıştırır.
@@ -25,10 +26,10 @@ using (var context = new AppDbContext())
 
     //EF Core sorgularda iki şekilde davranır >>>>>>>>>> 1- Client, 2- Server.
     //Server, veri tabanına gönderilecek olan sql cümleciğini içermelidir, local fonksiyonlar barındıramaz.
-    //Client tarafı ise memory'e gelmiş olan datayı sorgulamaya yaramaktadır. local fonksiyonlar barındırabilir.
-    //Client vs Server Evaluation End
-    //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //Client tarafı ise memory'e gelmiş olan datayı sorgulamaya yaramaktadır. local fonksiyonlar barındırabilir. 
+    #endregion
 
+    #region Inner Join
     //Joinlere ne zaman ihtiyaç duyarız >>>>>>>>> Eğer iki tablo arasında navigation property yok ise başvurabiliriz.
     //EF Core'da join yapısı yoktur ama linq ile yapabiliriz.
     //INNER JOIN START
@@ -103,8 +104,10 @@ using (var context = new AppDbContext())
     //});
     //3'lü join end
 
-    //INNER JOIN END
+    //INNER JOIN END 
+    #endregion
 
+    #region Left-Right Join
     //LEFT - RIGHT JOIN START
     //Left Join >>> Bu join tipinde hem kesişen alanlar hem de sol tarafta bulunan tablonun tüm alanları alınmaktadır.
     //Right Join >>> Bu join tipinde hem kesişen alanlar hem de sağ tarafta bulunan tablonun tüm alanları alınmaktadır.
@@ -133,8 +136,10 @@ using (var context = new AppDbContext())
     //                                 productHeight =pf.Height
     //                             }).ToListAsync();
 
-    //LEFT - RIGHT JOIN END
+    //LEFT - RIGHT JOIN END 
+    #endregion
 
+    #region Full Outter Join
     //FULL OUTTER JOIN
     //EF Core tarafında yoktur, custom linq ile yapıyor olucaz.
     //her iki tablonun dataları ve kesişimlerinden oluşmaktadır.
@@ -165,8 +170,10 @@ using (var context = new AppDbContext())
     //{
     //    Console.WriteLine($"{x.pName} - {x.pfColor} - {x.pfWidth}");
     //}) ;
-    //FULL OUTTER JOİN END
+    //FULL OUTTER JOİN END 
+    #endregion
 
+    #region Raw Sql Query, Custom Query, ToSqlQuery
     //RAW SQL QUERY START
     //var id = 3;
     //decimal price = 100;
@@ -192,17 +199,19 @@ using (var context = new AppDbContext())
     //her seferinde "select *" yazmak yerine ön tanımlı sql cümlecikleri yazmak için.
     //Bunun için ToSqlQuery metodunu OnModelCreating metodu içerisinde kullanırız.
     // var productsToSqlQuery = context.Products.Where(x => x.Price > 100).ToList(); //istersek burda "where" ile şart ekleyebiliriz. Eklenen bu şart direkt olarak OnModelCreating'ten gelen hazır sql cümleciğine eklenir.
-    //----------------------------------------------------
+    //---------------------------------------------------- 
+    #endregion
 
-
+    #region ToView
     //ToView Method Start
     //View'ler gerçek tablolar değildir, ön tanımlı sql cümlecikleri olarak düşünülebilir. Sanal tablolardır.
     //View'lerde insert, update, delete gibi metotlar uygulanması sağlıklı değildir. HasNoKey ile işaretlemek iyi olacaktır.
     //  var productToView = context.productFulls.ToList();
 
-    //ToView Method End
-    //RAW SQL QUERY END
+    //ToView Method End 
+    #endregion
 
+    #region Pagination
     //Pagination Start
     //    GetProducts(2, 5).ForEach(x =>
     //    {
@@ -219,6 +228,9 @@ using (var context = new AppDbContext())
 
     //Pagination End
 
+    #endregion
+
+    #region Global Query Filters, Query Tags
     //Global Query Filters Start
     //Soft Delete (IsDeleted),  Multi-tenancy (TenantId)
     // var products = context.Products.ToList(); ///Eğer AppDbContext(barcode numarası) yazarsak default int değerinden farklı olduğunu anladığından dolayı ilgili barcode numarasına sahip product gelir.
@@ -227,8 +239,23 @@ using (var context = new AppDbContext())
     //Global Query Filters End
 
     //Query Tags Start
-    var productsWithFeatures = context.Products.TagWith("Bu sorgu product'ları ve product'lara bağlı feature'ları getirir.").Include(x => x.ProductFeature).Where(x => x.Price > 100).ToList();
-    //Query Tags End
+    //var productsWithFeatures = context.Products.TagWith("Bu sorgu product'ları ve product'lara bağlı feature'ları getirir.").Include(x => x.ProductFeature).Where(x => x.Price > 100).ToList();
+    //Query Tags End 
+    #endregion
+
+    #region Tracking / No Tracking
+
+    //Global olarak "hasNoTracking" vermek için context'e yazarız. Bunun avantajları, dezavantajlarından daha fazladır.
+    var product = context.Products.First(x => x.Id == 1);
+
+    product.Name = "no tracking method";
+
+    context.Update(product);
+
+    context.SaveChanges(); 
+    #endregion
+
+    //----------------
     #region data-insert
     //var category = new Category() { Name = "Defterler" };
     //category.Products.Add(new() { Name = "Defter1", Barcode = 123, DiscountPrice = 80, Price = 120, Stock = 210, URL = "asb", ProductFeature = new ProductFeature() { Color = "Red", Height = 35, Width = 54 } });
