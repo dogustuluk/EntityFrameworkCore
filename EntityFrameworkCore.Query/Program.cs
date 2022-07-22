@@ -17,10 +17,10 @@ using (var context = new AppDbContext())
     //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //Client vs Server Evaluation Start
     //var persons = context.People.Where(x => FormatPhone (x.Phone) == "05335465213").ToList(); //>>Bu haliyle çalışmaz çünkü EF Core Server'a gönderdiği metotlarda custom bir metoda yer veremez. Bunu çözmek için aşağıdaki kod yazılmalıdır.
-    var person1 = context.People.ToList().Where(x => FormatPhone(x.Phone) == "5335465213").ToList();// Bu kod ile ilk karşılaşılan "ToList" kısmında ef core tüm datayı memory'e alır ve devamında olan sorguyı client tarafta çalıştırır.
+  //  var person1 = context.People.ToList().Where(x => FormatPhone(x.Phone) == "5335465213").ToList();// Bu kod ile ilk karşılaşılan "ToList" kısmında ef core tüm datayı memory'e alır ve devamında olan sorguyı client tarafta çalıştırır.
                                                                                                     //yukarıdaki kod düzenlenmemiş(formatlanmamış) dataları getirir. ikinci yolda ise gelen verileri düzenlenmiş olarak getirelim.
 
-    var person2 = context.People.ToList().Select(x => new { PersonName = x.Name, PersonPhone = FormatPhone(x.Phone) }).ToList();
+  //  var person2 = context.People.ToList().Select(x => new { PersonName = x.Name, PersonPhone = FormatPhone(x.Phone) }).ToList();
 
 
     //EF Core sorgularda iki şekilde davranır >>>>>>>>>> 1- Client, 2- Server.
@@ -204,24 +204,25 @@ using (var context = new AppDbContext())
     //RAW SQL QUERY END
 
     //Pagination Start
-    GetProducts(2, 5).ForEach(x =>
-    {
-        Console.WriteLine($"{x.Id} - {x.Name}");
-    });
+//    GetProducts(2, 5).ForEach(x =>
+//    {
+//        Console.WriteLine($"{x.Id} - {x.Name}");
+//    });
 
-    static List<Product> GetProducts(int page, int pageSize)
-{
-    using (var context = new AppDbContext())
-    {
-        return context.Products.OrderByDescending(x => x.Id).Skip((page - 1) * pageSize).Take(pageSize).ToList();
-    } 
-}
+//    static List<Product> GetProducts(int page, int pageSize)
+//{
+//    using (var context = new AppDbContext())
+//    {
+//        return context.Products.OrderByDescending(x => x.Id).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+//    } 
+//}
 
     //Pagination End
 
     //Global Query Filters Start
     //Soft Delete (IsDeleted),  Multi-tenancy (TenantId)
-    var products = context.Products.ToList();
+    var products = context.Products.ToList(); ///Eğer AppDbContext(barcode numarası) yazarsak default int değerinden farklı olduğunu anladığından dolayı ilgili barcode numarasına sahip product gelir.
+   // var productsIgnoreQueryFilter = context.Products.IgnoreQueryFilters().ToList(); //Ignore ederek query filter'larımızı iptal edebiliriz.
 
     //Global Query Filters End
 

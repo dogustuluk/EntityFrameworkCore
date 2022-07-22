@@ -8,6 +8,17 @@ namespace EntityFrameworkCore.CodeFirst.DAL
 {
     public class AppDbContext:DbContext
     {
+        private readonly int Barcode;
+
+        public AppDbContext(int barcode)
+        {
+            Barcode = barcode;
+        }
+
+        public AppDbContext()
+        {
+        }
+
         public DbSet<Person> People { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -41,8 +52,16 @@ namespace EntityFrameworkCore.CodeFirst.DAL
             modelBuilder.Entity<ProductWithFeature>().HasNoKey();
             modelBuilder.Entity<ProductEseential>().ToSqlQuery("select Name, Price from Products"); //ToSqlQuery > hazır sql cümleciği oluşturuldu.
             modelBuilder.Entity<ProductFull>().HasNoKey().ToView("productwithfeature");
-            modelBuilder.Entity<Product>().Property(x => x.IsDeleted).HasDefaultValue(false);
-            modelBuilder.Entity<Product>().HasQueryFilter(x => !x.IsDeleted);
+            modelBuilder.Entity<Product>().Property(x => x.IsDeleted).HasDefaultValue(false);//Global Query Filters Start
+            if (Barcode != default(int))
+            {
+                modelBuilder.Entity<Product>().HasQueryFilter(x => !x.IsDeleted && x.Barcode == Barcode);//Global Query Filters End
+
+            }
+            else
+                modelBuilder.Entity<Product>().HasQueryFilter(x => !x.IsDeleted);
+
+            //Bir nesne örneği üretildiğinde integer değerlerin default değeri vardır.(sadece int?). Int default değeri "0"
             base.OnModelCreating(modelBuilder);
         }
 
