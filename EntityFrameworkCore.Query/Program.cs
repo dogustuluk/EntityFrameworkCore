@@ -34,12 +34,6 @@ using (var context = new AppDbContext())
     //INNER JOIN START
     //İki tablo arasındaki ortak alanları almak istersek kullanabiliriz.
 
-    //var category = new Category() {Name = "Kalemler" };
-    //category.Products.Add(new() { Name = "Kalem1", Barcode = 123, DiscountPrice = 80, Price = 120, Stock = 210, URL = "asb",ProductFeature = new ProductFeature() {Color = "Red", Height = 35, Width = 54 } });
-    //category.Products.Add(new() { Name = "Kalem2", Barcode = 123, DiscountPrice = 80, Price = 120, Stock = 210, URL = "asb",ProductFeature = new ProductFeature() {Color = "Green", Height = 35, Width = 54 } });
-    //category.Products.Add(new() { Name = "Kalem3", Barcode = 123, DiscountPrice = 80, Price = 120, Stock = 210, URL = "asb",ProductFeature = new ProductFeature() {Color = "Blue", Height = 35, Width = 54 } });
-    //context.Categories.Add(category);
-    //context.SaveChanges();
 
     //2'li join start
     //var result = context.Categories.Join(context.Products, x => x.Id, y => y.CategoryId,(c, p) => new
@@ -204,15 +198,40 @@ using (var context = new AppDbContext())
     //ToView Method Start
     //View'ler gerçek tablolar değildir, ön tanımlı sql cümlecikleri olarak düşünülebilir. Sanal tablolardır.
     //View'lerde insert, update, delete gibi metotlar uygulanması sağlıklı değildir. HasNoKey ile işaretlemek iyi olacaktır.
-    var productToView = context.productFulls.ToList();
+    //  var productToView = context.productFulls.ToList();
 
     //ToView Method End
     //RAW SQL QUERY END
+
+    //Pagination Start
+    GetProducts(2, 5).ForEach(x =>
+    {
+        Console.WriteLine($"{x.Id} - {x.Name}");
+    });
+
+    static List<Product> GetProducts(int page, int pageSize)
+{
+    using (var context = new AppDbContext())
+    {
+        return context.Products.OrderByDescending(x => x.Id).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+    } 
+}
+
+    //Pagination End
+
+    #region data-insert
+    //var category = new Category() { Name = "Defterler" };
+    //category.Products.Add(new() { Name = "Defter1", Barcode = 123, DiscountPrice = 80, Price = 120, Stock = 210, URL = "asb", ProductFeature = new ProductFeature() { Color = "Red", Height = 35, Width = 54 } });
+    //category.Products.Add(new() { Name = "Defter2", Barcode = 123, DiscountPrice = 80, Price = 120, Stock = 210, URL = "asb", ProductFeature = new ProductFeature() { Color = "Green", Height = 35, Width = 54 } });
+    //category.Products.Add(new() { Name = "Defter3", Barcode = 123, DiscountPrice = 80, Price = 120, Stock = 210, URL = "asb", ProductFeature = new ProductFeature() { Color = "Blue", Height = 35, Width = 54 } });
+    //context.Categories.Add(category);
+    //context.SaveChanges();
+    #endregion
     Console.WriteLine("İşlem Başarılı");
 
-
-
 }
+
+
 
 string FormatPhone(string phone)
 {
