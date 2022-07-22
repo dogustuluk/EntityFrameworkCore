@@ -193,7 +193,7 @@ using (var context = new AppDbContext())
     //Bunun için ToSqlQuery metodunu OnModelCreating metodu içerisinde kullanırız.
     // var productsToSqlQuery = context.Products.Where(x => x.Price > 100).ToList(); //istersek burda "where" ile şart ekleyebiliriz. Eklenen bu şart direkt olarak OnModelCreating'ten gelen hazır sql cümleciğine eklenir.
     //----------------------------------------------------
-    // 0413 04 //
+   
 
     //ToView Method Start
     //View'ler gerçek tablolar değildir, ön tanımlı sql cümlecikleri olarak düşünülebilir. Sanal tablolardır.
@@ -218,6 +218,12 @@ using (var context = new AppDbContext())
 }
 
     //Pagination End
+
+    //Global Query Filters Start
+    //Soft Delete (IsDeleted),  Multi-tenancy (TenantId)
+    var products = context.Products.ToList();
+
+    //Global Query Filters End
 
     #region data-insert
     //var category = new Category() { Name = "Defterler" };

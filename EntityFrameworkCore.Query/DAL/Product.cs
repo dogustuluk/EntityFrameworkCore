@@ -22,6 +22,7 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         public decimal DiscountPrice { get; set; }
         public int Barcode { get; set; }
 
+        public bool IsDeleted { get; set; }
         public virtual Category Category { get; set; }
         public virtual ProductFeature ProductFeature { get; set; }
         public int CategoryId { get; set; }

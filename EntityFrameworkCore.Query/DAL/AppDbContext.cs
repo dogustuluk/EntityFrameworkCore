@@ -41,6 +41,8 @@ namespace EntityFrameworkCore.CodeFirst.DAL
             modelBuilder.Entity<ProductWithFeature>().HasNoKey();
             modelBuilder.Entity<ProductEseential>().ToSqlQuery("select Name, Price from Products"); //ToSqlQuery > hazır sql cümleciği oluşturuldu.
             modelBuilder.Entity<ProductFull>().HasNoKey().ToView("productwithfeature");
+            modelBuilder.Entity<Product>().Property(x => x.IsDeleted).HasDefaultValue(false);
+            modelBuilder.Entity<Product>().HasQueryFilter(x => !x.IsDeleted);
             base.OnModelCreating(modelBuilder);
         }
 
