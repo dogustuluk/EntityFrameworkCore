@@ -32,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.Indexes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.Query", "EntityFrameworkCore.Query\EntityFrameworkCore.Query.csproj", "{93E65CED-80AC-45AC-B3F3-E748EDDA2623}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.StoredProcedureAndFunction", "EntityFrameworkCore.StoredProcedureAndFunction\EntityFrameworkCore.StoredProcedureAndFunction.csproj", "{569C1850-E918-4BE5-9C49-84FEA2ABB496}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{93E65CED-80AC-45AC-B3F3-E748EDDA2623}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93E65CED-80AC-45AC-B3F3-E748EDDA2623}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93E65CED-80AC-45AC-B3F3-E748EDDA2623}.Release|Any CPU.Build.0 = Release|Any CPU
+		{569C1850-E918-4BE5-9C49-84FEA2ABB496}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{569C1850-E918-4BE5-9C49-84FEA2ABB496}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{569C1850-E918-4BE5-9C49-84FEA2ABB496}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{569C1850-E918-4BE5-9C49-84FEA2ABB496}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
