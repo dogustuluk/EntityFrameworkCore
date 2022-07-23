@@ -1,6 +1,7 @@
 ﻿using EntityFrameworkCore.CodeFirst;
 using EntityFrameworkCore.CodeFirst.DAL;
 using EntityFrameworkCore.Relationships.DAL;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -67,16 +68,59 @@ using (var context = new AppDbContext())
     //where p.CategoryId = @categoryId and p.Price >= @price
     //end
 
-    int categoryId = 1;
-    decimal price = 50;
-    var productsWithParameters = await context.productFulls.FromSqlInterpolated($"exec sp_get_products_full_parameters2 {categoryId},{price}").ToListAsync();
-    productsWithParameters.ToList().ForEach(p =>
-    {
-        Console.WriteLine($"{p.Id}-{p.CategoryName}-{p.Name}-{p.Price}-{p.Color}-{p.Width}-{p.Height}");
-    });
+    //int categoryId = 1;
+    //decimal price = 50;
+    //var productsWithParameters = await context.productFulls.FromSqlInterpolated($"exec sp_get_products_full_parameters2 {categoryId},{price}").ToListAsync();
+    //productsWithParameters.ToList().ForEach(p =>
+    //{
+    //    Console.WriteLine($"{p.Id}-{p.CategoryName}-{p.Name}-{p.Price}-{p.Color}-{p.Width}-{p.Height}");
+    //});
     //Null olabilecek alanların mutlaka nullable olarak kendi model sınıfı içerisinde işaretleme yapılması gerekmektedir.
 
     //<level 3
+
+
+    //level 4 -> insert, update yapan store procedure
+    //Geriye bir şey dönmeyen ya da tek bir data dönen sorgularda executeSql kullanılabilir.
+    //bu gibi işlemlerde geriye bir atanmış olan id'yi döndürmek istersek model üzerinden gidilmez, direkt olarak context'den gidilir.
+
+
+    //store procedure sql kodu aşağıdadır 
+    //    create procedure sp_insert_product
+    //@name nvarchar(max),
+    //@url nvarchar(max),
+    //@stock int,
+    //@price decimal(9, 2),
+    //@discountPrice decimal(9, 2),
+    //@barcode int,
+    //@categoryId int,
+    //@newId int output --yukarıdakiler birer input'tur, bu ise bir output olacaktır. Yeni bir Id geri dönmek için gereklidir.
+    //as
+    //begin
+    //insert into Products(Name, URL, Stock, Price, DiscountPrice, Barcode, CategoryId) values(@name, @url, @stock, @price, @discountPrice, @barcode, @categoryId)
+    //set @newId = SCOPE_IDENTITY();
+    //    return @newId;
+    //    end
+    var product = new Product()
+    {
+    Name = "Kalem code store procedure 4",
+    URL = "store.exe.ww",
+        Stock = 53,
+        Price = 530,
+        DiscountPrice = 340,
+
+        Barcode = 1230,
+    CategoryId = 1,
+
+    };
+
+    var newProductIdParameter = new SqlParameter("@newId", System.Data.SqlDbType.Int);
+    newProductIdParameter.Direction = System.Data.ParameterDirection.Output;
+    context.Database.ExecuteSqlInterpolated($"exec sp_insert_product {product.Name},{product.URL},{product.Stock},{product.Price},{product.DiscountPrice},{product.Barcode},{product.CategoryId},{newProductIdParameter} out");
+
+    var productId = newProductIdParameter.Value;
+
+    //<level 4
 
     //STORED PROCEDURE END
 
