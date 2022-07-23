@@ -4,6 +4,7 @@ using EntityFrameworkCore.CodeFirst.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntityFrameworkCore.Query.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220723110318_productFeatureNullable")]
+    partial class productFeatureNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,7 +64,7 @@ namespace EntityFrameworkCore.Query.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("EntityFrameworkCore.Query.Models.ProductFull", b =>
@@ -91,7 +93,7 @@ namespace EntityFrameworkCore.Query.Migrations
                     b.Property<int?>("Width")
                         .HasColumnType("int");
 
-                    b.ToTable("productFulls", (string)null);
+                    b.ToTable("productFulls");
                 });
 
             modelBuilder.Entity("EntityFrameworkCore.Relationships.DAL.Category", b =>
@@ -108,7 +110,7 @@ namespace EntityFrameworkCore.Query.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("EntityFrameworkCore.Relationships.DAL.ProductFeature", b =>
@@ -128,7 +130,7 @@ namespace EntityFrameworkCore.Query.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("productFeatures", (string)null);
+                    b.ToTable("productFeatures");
                 });
 
             modelBuilder.Entity("EntityFrameworkCore.CodeFirst.DAL.Product", b =>

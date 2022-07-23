@@ -33,13 +33,50 @@ using (var context = new AppDbContext())
     //Eğer custom bir table alacak isek bu dataları property olarak karşılayabilecek bir class'a ihtiyacımız vardır.
     //Bu tablolarda herhangi bir insert,delete,update yapılmayacağı için hasNoKey ile işaretlememiz lazım. Bunlar bir entity değildir; bir model olarak geçmektedirler.
     //Migration yapıldığında da model'daki sınıfın database'e yansımadan kod ekranında silmemiz gerekmektedir. Daha sonrasında veri tabanına yansıtmamız gerekecektir.
-    var products = await context.productFulls.FromSqlRaw("exec sp_get_productsfull2").ToListAsync();
-    products.ToList().ForEach(p =>
-    {
-        Console.WriteLine($"{p.Id} - {p.Name} - {p.Price} - {p.CategoryName} - {p.Color} - {p.Width} - {p.Height}");
-    });
+    //sql'deki procedure kodu aşağıdadır
+    //    create procedure sp_get_productsfull2
+    //as
+    //begin
+    //select p.Id, p.Name, p.Price, c.Name 'CategoryName', pf.Color, pf.Height, pf.Width from Products p
+    //join Categories c on p.CategoryId = c.Id
+    //join productFeatures pf on p.Id = pf.Id
+    //end
 
-    //<level 2
+    //exec sp_get_productsfull2
+
+    //var products = await context.productFulls.FromSqlRaw("exec sp_get_productsfull2").ToListAsync();
+    //products.ToList().ForEach(p =>
+    //{
+    //    Console.WriteLine($"{p.Id} - {p.Name} - {p.Price} - {p.CategoryName} - {p.Color} - {p.Width} - {p.Height}");
+    //});
+
+    ////<level 2
+
+    //level 3 -> parametreli store procedure>
+    //Custom bir tabloyu maplemek istediğimizde mutlaka bir model olmalı(ProductFull gibi) ve nullable alanlar var ise model'de bunu belirtmemiz gerekmektedir.
+
+    //sql kodu aşağıdadır
+    //    create procedure sp_get_products_full_parameters
+    //@categoryId int,
+    //@price decimal(9, 2)
+    //as
+    //begin
+    //select p.Id, p.Name, p.Price, c.Name 'CategoryName', pf.Color, pf.Width, pf.Height from Categories c
+    //join Products p on p.CategoryId = c.Id
+    //left join productFeatures pf on pf.Id = p.Id
+    //where p.CategoryId = @categoryId and p.Price >= @price
+    //end
+
+    int categoryId = 1;
+    decimal price = 50;
+    var productsWithParameters = await context.productFulls.FromSqlInterpolated($"exec sp_get_products_full_parameters2 {categoryId},{price}").ToListAsync();
+    productsWithParameters.ToList().ForEach(p =>
+    {
+        Console.WriteLine($"{p.Id}-{p.CategoryName}-{p.Name}-{p.Price}-{p.Color}-{p.Width}-{p.Height}");
+    });
+    //Null olabilecek alanların mutlaka nullable olarak kendi model sınıfı içerisinde işaretleme yapılması gerekmektedir.
+
+    //<level 3
 
     //STORED PROCEDURE END
 
