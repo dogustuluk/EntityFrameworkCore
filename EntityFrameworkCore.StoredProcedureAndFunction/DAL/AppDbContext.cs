@@ -13,6 +13,7 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductFeature> productFeatures { get; set; }
+        public DbSet<ProductFull> productFulls { get; set; }
 
         //public DbSet<ProductEseential> productEseentials { get; set; }
         //public DbSet<ProductWithFeature> productWithFeatures { get; set; }
@@ -39,7 +40,7 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-          
+            modelBuilder.Entity<ProductFull>().HasNoKey();
             base.OnModelCreating(modelBuilder);
         }
 
