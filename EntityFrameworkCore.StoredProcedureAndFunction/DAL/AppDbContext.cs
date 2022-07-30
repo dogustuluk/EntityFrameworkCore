@@ -18,6 +18,7 @@ namespace EntityFrameworkCore.CodeFirst.DAL
 
         public DbSet<ProductFull2> productFull2s { get; set; }
         public DbSet<ProductFullForFunction> productFullForFunctions { get; set; }
+        public DbSet<ProductFullForFunction2> productFullForFunction2s { get; set; }
 
         //public DbSet<ProductEseential> productEseentials { get; set; }
         //public DbSet<ProductWithFeature> productWithFeatures { get; set; }

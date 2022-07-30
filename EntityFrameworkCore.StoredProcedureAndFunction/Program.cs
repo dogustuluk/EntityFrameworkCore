@@ -141,6 +141,11 @@ using (var context = new AppDbContext())
 
     var result = await context.productFullForFunctions.ToListAsync();
 
+    //function2
+    var category = 1;
+    var result2 = await context.productFullForFunction2s.FromSqlInterpolated($"select * from fc_product_full_parameter({category})").ToListAsync();
+    //Eğer function parametre alıyor ise "FromSqlInterpolated" içerisinde sql cümleciği yazılır.
+    //-
     //FUNCTION END
 
     Console.WriteLine("İşlem Başarılı");
