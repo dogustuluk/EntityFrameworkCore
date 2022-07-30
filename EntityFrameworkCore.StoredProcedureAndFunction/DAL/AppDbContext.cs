@@ -30,6 +30,11 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         //
 
         //public DbSet<BasePerson> Persons { get; set; } 
+
+        //>>>>>>>>>function konusu önemli
+        //oop'ye göre daha düzenli ve best practise olması için function'ları model üzerinden maplemek yerine method içerisinde yazmamız gerekmektedir.
+        public IQueryable<ProductWithFeaturesFunctionMethod> GetProductWithFeaturesFunctions(int categoryId) => FromExpression(()=> GetProductWithFeaturesFunctions(categoryId)); //Eğer method içerisinde tek satırlık bir kod var ise; lambda ile direkt olarak kodu yazabiliriz.
+        //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             
@@ -48,6 +53,14 @@ namespace EntityFrameworkCore.CodeFirst.DAL
             modelBuilder.Entity<ProductFull>().HasNoKey();
             modelBuilder.Entity<ProductFull2>().HasNoKey();
             modelBuilder.Entity<ProductFullForFunction>().ToFunction("fc_product_full");
+            modelBuilder.HasDbFunction(typeof(AppDbContext).GetMethod(nameof(GetProductWithFeaturesFunctions), new[] { typeof(int) })!).HasName("fc_product_full_parameter");
+                //parantez içerisinde önce tipini vermemiz lazım. Bir reflection yapılacaktır. İlgili metodun bulunduğu sınıfın tipini veriyoruz. Bu örnekteki sınıf AppDbContext oluyor çünkü bizim "GetProductWithFeaturesFunctions(int categoryId)" metodumuz bu sınıfta. Burada bizden bir reflection ile ilgili metoda erişmemizi istiyor.
+                //Daha sonrasında tipini belirttiğimiz yeri, nokta ile beraber metodunu veriyoruz.
+                //Ardından virgül ile alacağı parametreyi giriyoruz. Virgülden sonra "new" ile beraber "[]" bir dizin belirtiyoruz çünkü bir metot birden fazla parametre de alabilmektedir. Fakat bizim burada yapacağımız örnekte tek bir parametre almaktadır oluşturulan metot.
+                //ünlem işaretini nullabler olabilme durumundan dolayı koyuyoruz. Kod tarafında herhangi bir farklılık yaratmaz, sadece altındaki yeşil çizgiyi yok eder.
+                //En son "HasName" ifadesi ile hangi function'a mapleneceğini vermemiz gerekmektedir.
+                //>>>
+                //eğer bu yöntemi kullanırsak dbset olarak girmeyeceğimiz için herhangi bir migration yaparken ilgili model'i silmek zorunda kalmayız.
             base.OnModelCreating(modelBuilder);
         }
 

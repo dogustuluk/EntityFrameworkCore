@@ -138,7 +138,7 @@ using (var context = new AppDbContext())
     //stored procedure'ler içerisinde function kullanılabilir fakat function içerisinde stored procedure kullanılamaz.
     //stored procedure'ler içerisinde try-catch blokları kullanabiliriz fakat function'lar içerisinde try-catch bloklarını kullanamayız.
     //select cümlecikleri içerisinde function'ları kullanabiliriz ama stored procedure'leri kullanamayız.
-
+    //function'larda "where" ifadesi kullanılabilir.
     var result = await context.productFullForFunctions.ToListAsync();
 
     //function2
@@ -146,6 +146,12 @@ using (var context = new AppDbContext())
     var result2 = await context.productFullForFunction2s.FromSqlInterpolated($"select * from fc_product_full_parameter({category})").ToListAsync();
     //Eğer function parametre alıyor ise "FromSqlInterpolated" içerisinde sql cümleciği yazılır.
     //-
+
+
+    //function with method
+    var product = await context.GetProductWithFeaturesFunctions(1).ToListAsync(); //burada "where" sorgusu da yazabiliriz.
+    //bu kodun ilgili function'u çağırması için bir kod daha yazmamız gerekmektedir. AppDbContext sınıfında "OnModelCreating" içerisinde gerekli tanımlamamızı yaparız.
+    //----------------------
     //FUNCTION END
 
     Console.WriteLine("İşlem Başarılı");
