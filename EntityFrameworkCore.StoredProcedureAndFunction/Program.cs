@@ -151,6 +151,9 @@ using (var context = new AppDbContext())
     //function with method
     var product = await context.GetProductWithFeaturesFunctions(1).ToListAsync(); //burada "where" sorgusu da yazabiliriz.
     //bu kodun ilgili function'u çağırması için bir kod daha yazmamız gerekmektedir. AppDbContext sınıfında "OnModelCreating" içerisinde gerekli tanımlamamızı yaparız.
+    var productColor = await context.GetProductWithFeaturesFunctionMethodColorParameters("Red").ToListAsync();
+    var productName = await context.GetProductWithFeaturesFunctionMethodNameParameters("Kalem2").ToListAsync();
+    var productColorAndCategory = await context.GetProductWithFeaturesFunctionMethodColorAndCategoryParameters("Red", 1).ToListAsync();
     //----------------------
     //FUNCTION END
 

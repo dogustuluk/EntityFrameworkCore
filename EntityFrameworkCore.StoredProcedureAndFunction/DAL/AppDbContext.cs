@@ -34,6 +34,11 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         //>>>>>>>>>function konusu önemli
         //oop'ye göre daha düzenli ve best practise olması için function'ları model üzerinden maplemek yerine method içerisinde yazmamız gerekmektedir.
         public IQueryable<ProductWithFeaturesFunctionMethod> GetProductWithFeaturesFunctions(int categoryId) => FromExpression(()=> GetProductWithFeaturesFunctions(categoryId)); //Eğer method içerisinde tek satırlık bir kod var ise; lambda ile direkt olarak kodu yazabiliriz.
+        
+        public IQueryable<ProductWithFeaturesFunctionMethodColorParameter> GetProductWithFeaturesFunctionMethodColorParameters(string color) => FromExpression(()=> GetProductWithFeaturesFunctionMethodColorParameters(color));
+
+        public IQueryable<ProductWithFeaturesFunctionMethodColorParameter> GetProductWithFeaturesFunctionMethodNameParameters(string name) => FromExpression(() => GetProductWithFeaturesFunctionMethodNameParameters(name));
+        public IQueryable<ProductWithFeaturesFunctionMethodColorParameter> GetProductWithFeaturesFunctionMethodColorAndCategoryParameters(string color, int categoryId) => FromExpression(() => GetProductWithFeaturesFunctionMethodColorAndCategoryParameters(color, categoryId));
         //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -54,6 +59,10 @@ namespace EntityFrameworkCore.CodeFirst.DAL
             modelBuilder.Entity<ProductFull2>().HasNoKey();
             modelBuilder.Entity<ProductFullForFunction>().ToFunction("fc_product_full");
             modelBuilder.HasDbFunction(typeof(AppDbContext).GetMethod(nameof(GetProductWithFeaturesFunctions), new[] { typeof(int) })!).HasName("fc_product_full_parameter");
+            modelBuilder.HasDbFunction(typeof(AppDbContext).GetMethod(nameof(GetProductWithFeaturesFunctionMethodColorParameters), new[] { typeof(string) })!).HasName("fc_product_with_color_parameter");
+            modelBuilder.HasDbFunction(typeof(AppDbContext).GetMethod(nameof(GetProductWithFeaturesFunctionMethodNameParameters), new[] { typeof(string) })!).HasName("fc_product_full_parameter2");
+            modelBuilder.HasDbFunction(typeof(AppDbContext).GetMethod(nameof(GetProductWithFeaturesFunctionMethodColorAndCategoryParameters), new[] { typeof(string), typeof(int) })!).HasName("fc_color_not_null_and_category_1");
+
                 //parantez içerisinde önce tipini vermemiz lazım. Bir reflection yapılacaktır. İlgili metodun bulunduğu sınıfın tipini veriyoruz. Bu örnekteki sınıf AppDbContext oluyor çünkü bizim "GetProductWithFeaturesFunctions(int categoryId)" metodumuz bu sınıfta. Burada bizden bir reflection ile ilgili metoda erişmemizi istiyor.
                 //Daha sonrasında tipini belirttiğimiz yeri, nokta ile beraber metodunu veriyoruz.
                 //Ardından virgül ile alacağı parametreyi giriyoruz. Virgülden sonra "new" ile beraber "[]" bir dizin belirtiyoruz çünkü bir metot birden fazla parametre de alabilmektedir. Fakat bizim burada yapacağımız örnekte tek bir parametre almaktadır oluşturulan metot.
