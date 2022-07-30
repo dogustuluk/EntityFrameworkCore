@@ -1,6 +1,7 @@
 ﻿using EntityFrameworkCore.Query.DAL;
 using EntityFrameworkCore.Query.Models;
 using EntityFrameworkCore.Relationships.DAL;
+using EntityFrameworkCore.StoredProcedureAndFunction.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -14,6 +15,9 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductFeature> productFeatures { get; set; }
         public DbSet<ProductFull> productFulls { get; set; }
+
+        public DbSet<ProductFull2> productFull2s { get; set; }
+        public DbSet<ProductFullForFunction> productFullForFunctions { get; set; }
 
         //public DbSet<ProductEseential> productEseentials { get; set; }
         //public DbSet<ProductWithFeature> productWithFeatures { get; set; }
@@ -41,6 +45,8 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProductFull>().HasNoKey();
+            modelBuilder.Entity<ProductFull2>().HasNoKey();
+            modelBuilder.Entity<ProductFullForFunction>().ToFunction("fc_product_full");
             base.OnModelCreating(modelBuilder);
         }
 

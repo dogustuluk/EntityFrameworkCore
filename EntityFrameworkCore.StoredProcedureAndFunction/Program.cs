@@ -101,28 +101,47 @@ using (var context = new AppDbContext())
     //set @newId = SCOPE_IDENTITY();
     //    return @newId;
     //    end
-    var product = new Product()
-    {
-    Name = "Kalem code store procedure 4",
-    URL = "store.exe.ww",
-        Stock = 53,
-        Price = 530,
-        DiscountPrice = 340,
+    //var product = new Product()
+    //{
+    //Name = "Kalem code store procedure 4",
+    //URL = "store.exe.ww",
+    //    Stock = 53,
+    //    Price = 530,
+    //    DiscountPrice = 340,
 
-        Barcode = 1230,
-    CategoryId = 1,
+    //    Barcode = 1230,
+    //CategoryId = 1,
 
-    };
+    //};
 
-    var newProductIdParameter = new SqlParameter("@newId", System.Data.SqlDbType.Int);
-    newProductIdParameter.Direction = System.Data.ParameterDirection.Output;
-    context.Database.ExecuteSqlInterpolated($"exec sp_insert_product {product.Name},{product.URL},{product.Stock},{product.Price},{product.DiscountPrice},{product.Barcode},{product.CategoryId},{newProductIdParameter} out");
+    //var newProductIdParameter = new SqlParameter("@newId", System.Data.SqlDbType.Int);
+    //newProductIdParameter.Direction = System.Data.ParameterDirection.Output;
+    //context.Database.ExecuteSqlInterpolated($"exec sp_insert_product {product.Name},{product.URL},{product.Stock},{product.Price},{product.DiscountPrice},{product.Barcode},{product.CategoryId},{newProductIdParameter} out");
 
-    var productId = newProductIdParameter.Value;
+    //var productId = newProductIdParameter.Value;
 
     //<level 4
 
     //STORED PROCEDURE END
+    //------------------------------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------------------------------
+
+    //FUNCTION START
+    //Table-Valued Function,            Scalar-Valued Function >> kendi function'larımızı yazacağımız zaman ayrılan iki'li
+    //Transaction yapılarına, try-catch bloklarına ihtiyacımız varsa stored procedure kullanırız, bunlara ihtiyacımız yok ise function'lardan yararlanabiliriz.
+    //Scalar değer >> int, double gibi türler.
+    //function'larda sadece girdi (in) parametreleri vardır.
+    //Function'lar stored procedure'ler gibi hem in hem out parametrelerini alamazlar >>>>>>>>>> sadece in(girdi) parametrelerini alabilirler.
+    //stored procedure'ler geriye bir şey dönmek zorunda değillerdir fakat function'larda geriye değer dönmesi zorunludur. 
+    //stored procedure'ler içerisinde function kullanılabilir fakat function içerisinde stored procedure kullanılamaz.
+    //stored procedure'ler içerisinde try-catch blokları kullanabiliriz fakat function'lar içerisinde try-catch bloklarını kullanamayız.
+    //select cümlecikleri içerisinde function'ları kullanabiliriz ama stored procedure'leri kullanamayız.
+
+    var result = await context.productFullForFunctions.ToListAsync();
+
+    //FUNCTION END
 
     Console.WriteLine("İşlem Başarılı");
 
