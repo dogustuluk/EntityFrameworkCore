@@ -19,6 +19,7 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         public DbSet<ProductFull2> productFull2s { get; set; }
         public DbSet<ProductFullForFunction> productFullForFunctions { get; set; }
         public DbSet<ProductFullForFunction2> productFullForFunction2s { get; set; }
+        public DbSet<ProductCount> productCounts { get; set; }
 
         //public DbSet<ProductEseential> productEseentials { get; set; }
         //public DbSet<ProductWithFeature> productWithFeatures { get; set; }
@@ -82,6 +83,7 @@ namespace EntityFrameworkCore.CodeFirst.DAL
             //>>>
             //eğer bu yöntemi kullanırsak dbset olarak girmeyeceğimiz için herhangi bir migration yaparken ilgili model'i silmek zorunda kalmayız.
             modelBuilder.HasDbFunction(typeof(AppDbContext).GetMethod(nameof(GetProductCount), new[] { typeof(int) })!).HasName("fc_get_product_count"); //scalar value function
+            modelBuilder.Entity<ProductCount>().HasNoKey();//function5
             base.OnModelCreating(modelBuilder);
         }
 

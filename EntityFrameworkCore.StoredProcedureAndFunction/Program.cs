@@ -165,6 +165,14 @@ using (var context = new AppDbContext())
     }).ToListAsync();
     //function4 - scalar value function end
 
+    //function5 - scalar value function on model mapping start
+    var categoryId = 1;
+    var productCount = context.productCounts.FromSqlInterpolated($"select dbo.fc_get_product_count({categoryId}) as Count").First().Count; //tek satır geleceğini bildiğimiz için "First()" diyoruz.
+    //Önemli >>>>>>>>>>>> "as" ifadesinden sonraki ifadenin modeldeki isim olması gerekmektedir. Çünkü "as" ifadesinden sonra gelen ifade sütun ismi olmaktadır.
+
+
+    //function5 - scalar value function on model mapping end
+
     //FUNCTION END
 
     Console.WriteLine("İşlem Başarılı");
