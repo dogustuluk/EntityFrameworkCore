@@ -38,6 +38,25 @@ using (var context = new AppDbContext())
         TotalPrice = x.Products.Sum(x => x.Price)
     }).Where(y => y.TotalPrice >50).OrderBy(x => x.TotalPrice).ToListAsync();
 
+
+
+    //anonymous types2 start
+    //Eğerki select linq ifadesini kullanıyorsak include ifadelerini kullanmamıza gerek yok. Fakat bu özelliği kullanabilmek için entity'ler üzerinde navigation property'ler var ise bunu yapabiliriz.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    var products4 = await context.Products.Select(x => new
+    {
+        categoryName = x.Category.Name,
+        productName = x.Name,
+        Width = (int?)x.ProductFeature.Width,
+        TotalPrice = x.Category.Products.Sum(x => x.Price)
+    }).Where(x => x.Width>40).ToListAsync();
+
+    var categories2 = await context.Categories.Select(x => new
+    {
+        categoryName = x.Name,
+        Products = String.Join("", x.Products.Select(y => y.Name)),
+        TotalPrice = x.Products.Sum(x => x.Price),
+        TotalWidth = x.Products.Select(x => x.ProductFeature.Width).Sum()
+    }).Where(y => y.TotalPrice >100).OrderBy(x => x.TotalPrice).ToListAsync();
     //anonymous types end
     //PROJECTIONS END
 
