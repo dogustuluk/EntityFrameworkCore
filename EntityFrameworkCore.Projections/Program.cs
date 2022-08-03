@@ -1,4 +1,5 @@
-﻿using EntityFrameworkCore.CodeFirst;
+﻿using AutoMapper.QueryableExtensions;
+using EntityFrameworkCore.CodeFirst;
 using EntityFrameworkCore.CodeFirst.DAL;
 using EntityFrameworkCore.Projections.DTOs;
 using EntityFrameworkCore.Projections.Mappers;
@@ -83,13 +84,15 @@ using (var context = new AppDbContext())
 
     //Her seferinde yeni bir dto oluşturmak yerine AutoMapper kütüphanesi ekleyerek gerekli işlemleri yapmamız daha sağlıklıdır.
 
-    var products6Mapper = context.Products.ToList();
-    var productDto = ObjectMapper.Mapper.Map<List<ProductDto3AutoMapper>>(products6Mapper); //avantajı dezavantajı vardır. AutoMapper kütüphanesi ile yaptığımız zaman öncesinde tüm datalar çekilir, daha sonra mapping yapılınca gerekli alanlar kalır, istemediğimiz alanlar getirilmez.
+   // var products6Mapper = context.Products.ToList();
+   // var productDto = ObjectMapper.Mapper.Map<List<ProductDto3AutoMapper>>(products6Mapper); //avantajı dezavantajı vardır. AutoMapper kütüphanesi ile yaptığımız zaman öncesinde tüm datalar çekilir, daha sonra mapping yapılınca gerekli alanlar kalır, istemediğimiz alanlar getirilmez.
 
     //Hem map'leme yapıp hem de sadece istediğimiz datalar sql'den çekilmesini istiyorsak aşağıdaki yol izlenir. Yani satır 86'daki tüm verileri başlangıç esnasında almak istemiyorsak.
+    var productDto2 = context.Products.ProjectTo<ProductDto3AutoMapper>(ObjectMapper.Mapper.ConfigurationProvider).ToList();
+
+
     //DTO/VIEW MODEL END
     //PROJECTIONS END
-
 
     Console.WriteLine("İşlem Başarılı");
 
