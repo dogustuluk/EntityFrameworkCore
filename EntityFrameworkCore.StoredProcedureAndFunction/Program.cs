@@ -155,6 +155,16 @@ using (var context = new AppDbContext())
     var productName = await context.GetProductWithFeaturesFunctionMethodNameParameters("Kalem2").ToListAsync();
     var productColorAndCategory = await context.GetProductWithFeaturesFunctionMethodColorAndCategoryParameters("Red", 1).ToListAsync();
     //----------------------
+
+    //function4 - scalar value function start
+    //geriye tek bir değer dönüyor ise şema bilgisini mutlaka yazmalıyız.Scalar value function'da gereklidir, table-valued function'da ise gerekli değildir.>>>> örnek sql kodu >>> select dbo.fc_get_product_count(2)
+    var categories = await context.Categories.Select(x => new
+    {
+        CategoryName = x.Name,
+        ProductCount = context.GetProductCount(x.Id)
+    }).ToListAsync();
+    //function4 - scalar value function end
+
     //FUNCTION END
 
     Console.WriteLine("İşlem Başarılı");

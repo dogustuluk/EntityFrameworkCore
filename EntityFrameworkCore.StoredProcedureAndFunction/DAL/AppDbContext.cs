@@ -40,6 +40,16 @@ namespace EntityFrameworkCore.CodeFirst.DAL
         public IQueryable<ProductWithFeaturesFunctionMethodColorParameter> GetProductWithFeaturesFunctionMethodNameParameters(string name) => FromExpression(() => GetProductWithFeaturesFunctionMethodNameParameters(name));
         public IQueryable<ProductWithFeaturesFunctionMethodColorParameter> GetProductWithFeaturesFunctionMethodColorAndCategoryParameters(string color, int categoryId) => FromExpression(() => GetProductWithFeaturesFunctionMethodColorAndCategoryParameters(color, categoryId));
         //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+        //scalar value function
+        public int GetProductCount(int categoryId)
+        {
+            //  throw new Exception(); //bunun nedeni>>> bu şekilde bir tanımlama yapıldığı zaman, bu metodu direkt olarak ef core üzerinden kullanırsak hata almak için yazdık. Çünkü ef core'un geriye tek bir değer dönen function'ları tek bir seferde kullanmamıza imkan vermiyor. Örnek program.cs kodu >> "var count = context.GetProductCount(1);"
+            //geriye int,decimal gibi tek bir scalar değer dönen function'ları mutlaka ef core'un içerisinde kullanmamız gerekmektedir.
+            throw new NotSupportedException("Bu method ef core tarafından çağrılmaktadır."); //ef core dokümantasyonunda bu verilir.
+            
+        }
+        //--------------------------
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             
@@ -63,13 +73,15 @@ namespace EntityFrameworkCore.CodeFirst.DAL
             modelBuilder.HasDbFunction(typeof(AppDbContext).GetMethod(nameof(GetProductWithFeaturesFunctionMethodNameParameters), new[] { typeof(string) })!).HasName("fc_product_full_parameter2");
             modelBuilder.HasDbFunction(typeof(AppDbContext).GetMethod(nameof(GetProductWithFeaturesFunctionMethodColorAndCategoryParameters), new[] { typeof(string), typeof(int) })!).HasName("fc_color_not_null_and_category_1");
 
-                //parantez içerisinde önce tipini vermemiz lazım. Bir reflection yapılacaktır. İlgili metodun bulunduğu sınıfın tipini veriyoruz. Bu örnekteki sınıf AppDbContext oluyor çünkü bizim "GetProductWithFeaturesFunctions(int categoryId)" metodumuz bu sınıfta. Burada bizden bir reflection ile ilgili metoda erişmemizi istiyor.
-                //Daha sonrasında tipini belirttiğimiz yeri, nokta ile beraber metodunu veriyoruz.
-                //Ardından virgül ile alacağı parametreyi giriyoruz. Virgülden sonra "new" ile beraber "[]" bir dizin belirtiyoruz çünkü bir metot birden fazla parametre de alabilmektedir. Fakat bizim burada yapacağımız örnekte tek bir parametre almaktadır oluşturulan metot.
-                //ünlem işaretini nullabler olabilme durumundan dolayı koyuyoruz. Kod tarafında herhangi bir farklılık yaratmaz, sadece altındaki yeşil çizgiyi yok eder.
-                //En son "HasName" ifadesi ile hangi function'a mapleneceğini vermemiz gerekmektedir.
-                //>>>
-                //eğer bu yöntemi kullanırsak dbset olarak girmeyeceğimiz için herhangi bir migration yaparken ilgili model'i silmek zorunda kalmayız.
+
+            //parantez içerisinde önce tipini vermemiz lazım. Bir reflection yapılacaktır. İlgili metodun bulunduğu sınıfın tipini veriyoruz. Bu örnekteki sınıf AppDbContext oluyor çünkü bizim "GetProductWithFeaturesFunctions(int categoryId)" metodumuz bu sınıfta. Burada bizden bir reflection ile ilgili metoda erişmemizi istiyor.
+            //Daha sonrasında tipini belirttiğimiz yeri, nokta ile beraber metodunu veriyoruz.
+            //Ardından virgül ile alacağı parametreyi giriyoruz. Virgülden sonra "new" ile beraber "[]" bir dizin belirtiyoruz çünkü bir metot birden fazla parametre de alabilmektedir. Fakat bizim burada yapacağımız örnekte tek bir parametre almaktadır oluşturulan metot.
+            //ünlem işaretini nullabler olabilme durumundan dolayı koyuyoruz. Kod tarafında herhangi bir farklılık yaratmaz, sadece altındaki yeşil çizgiyi yok eder.
+            //En son "HasName" ifadesi ile hangi function'a mapleneceğini vermemiz gerekmektedir.
+            //>>>
+            //eğer bu yöntemi kullanırsak dbset olarak girmeyeceğimiz için herhangi bir migration yaparken ilgili model'i silmek zorunda kalmayız.
+            modelBuilder.HasDbFunction(typeof(AppDbContext).GetMethod(nameof(GetProductCount), new[] { typeof(int) })!).HasName("fc_get_product_count"); //scalar value function
             base.OnModelCreating(modelBuilder);
         }
 
