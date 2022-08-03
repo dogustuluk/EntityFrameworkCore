@@ -1,6 +1,7 @@
 ﻿using EntityFrameworkCore.CodeFirst;
 using EntityFrameworkCore.CodeFirst.DAL;
 using EntityFrameworkCore.Projections.DTOs;
+using EntityFrameworkCore.Projections.Mappers;
 using EntityFrameworkCore.Relationships.DAL;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -63,22 +64,29 @@ using (var context = new AppDbContext())
     //DTO/VIEW MODEL START
     //dto ve viewModeller aynı görevi üstlenirler; entity'leri dış dünyaya direkt olarak açmak yerine isimsiz bir tip ile veya dto/view model ile açarız.
     //isimsiz tipler o anda kullanılır, daha sonrasında bir başka yerde kullanamayız. Fakat DTO ya da View Model'leri auto mapper veya mapster gibi kütüpnaneleri kullanabiliriz. İsimsiz tiplerde ekstra sınıflar kullanmamıza gerek yoktur, direkt olarak new{} şeklinde tanımlanabilir. DTO ve view model'lerde ayrı class'lar oluşturmamız gerekmektedir. DTO ve view model daha güçlüdür. İhtiyaca göre seçim yapmakta fayda var.
-    var products5 = await context.Products.Select(x => new ProductDto
-    {
-        CategoryName = x.Category.Name,
-        ProductName = x.Name,
-        ProductPrice = x.Price,
-        Width = (int?)x.ProductFeature.Width
-    }).Where(x => x.Width > 30).ToListAsync();
+    //var products5 = await context.Products.Select(x => new ProductDto
+    //{
+    //    CategoryName = x.Category.Name,
+    //    ProductName = x.Name,
+    //    ProductPrice = x.Price,
+    //    Width = (int?)x.ProductFeature.Width
+    //}).Where(x => x.Width > 30).ToListAsync();
 
 
-    var categories2 = await context.Categories.Select(x => new ProductDto2
-    {
-        CategoryName = x.Name,
-        Products = String.Join("", x.Products.Select(y => y.Name)),
-        TotalPrice = x.Products.Sum(x => x.Price),
-        TotalWidth = x.Products.Select(x => x.ProductFeature.Width).Sum()
-    }).Where(y => y.TotalPrice > 100).OrderBy(x => x.TotalPrice).ToListAsync();
+    //var categories2 = await context.Categories.Select(x => new ProductDto2
+    //{
+    //    CategoryName = x.Name,
+    //    Products = String.Join("", x.Products.Select(y => y.Name)),
+    //    TotalPrice = x.Products.Sum(x => x.Price),
+    //    TotalWidth = x.Products.Select(x => x.ProductFeature.Width).Sum()
+    //}).Where(y => y.TotalPrice > 100).OrderBy(x => x.TotalPrice).ToListAsync();
+
+    //Her seferinde yeni bir dto oluşturmak yerine AutoMapper kütüphanesi ekleyerek gerekli işlemleri yapmamız daha sağlıklıdır.
+
+    var products6Mapper = context.Products.ToList();
+    var productDto = ObjectMapper.Mapper.Map<List<ProductDto3AutoMapper>>(products6Mapper); //avantajı dezavantajı vardır. AutoMapper kütüphanesi ile yaptığımız zaman öncesinde tüm datalar çekilir, daha sonra mapping yapılınca gerekli alanlar kalır, istemediğimiz alanlar getirilmez.
+
+    //Hem map'leme yapıp hem de sadece istediğimiz datalar sql'den çekilmesini istiyorsak aşağıdaki yol izlenir. Yani satır 86'daki tüm verileri başlangıç esnasında almak istemiyorsak.
     //DTO/VIEW MODEL END
     //PROJECTIONS END
 
