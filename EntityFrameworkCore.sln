@@ -38,6 +38,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.Project
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.Transactions", "EntityFrameworkCore.Transactions\EntityFrameworkCore.Transactions.csproj", "{66A0565F-7665-483C-A381-F1D93A0AE5ED}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.IsolationLevels", "EntityFrameworkCore.IsolationLevels\EntityFrameworkCore.IsolationLevels.csproj", "{3C6B074F-3D3F-45E5-A868-E60AA56313B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,10 @@ Global
 		{66A0565F-7665-483C-A381-F1D93A0AE5ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66A0565F-7665-483C-A381-F1D93A0AE5ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66A0565F-7665-483C-A381-F1D93A0AE5ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C6B074F-3D3F-45E5-A868-E60AA56313B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C6B074F-3D3F-45E5-A868-E60AA56313B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C6B074F-3D3F-45E5-A868-E60AA56313B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C6B074F-3D3F-45E5-A868-E60AA56313B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
