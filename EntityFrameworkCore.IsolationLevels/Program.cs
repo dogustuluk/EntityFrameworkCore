@@ -60,20 +60,31 @@ using (var context = new AppDbContext())
     //dirty read meydana gelmez. commit edilmemiş datayı okumaz, güncel datayı okur.
     //phantom ve unrepeatable problemleri meydana gelmektedir.
 
-    using (var transaction = context.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted)) //data güncellerken buradaki gibi isolation level belirtmeye gerek yoktur. Burada okuma yapan yer kritik noktadır.
-                                                                                                            //Nerede okuma(read) yapılıyor ise orada isolation level belirtmemiz gerekmektedir. 
+    //using (var transaction = context.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted)) //data güncellerken buradaki gibi isolation level belirtmeye gerek yoktur. Burada okuma yapan yer kritik noktadır.
+    //                                                                                                        //Nerede okuma(read) yapılıyor ise orada isolation level belirtmemiz gerekmektedir. 
+    //{
+    //    var product = context.Products.First();
+    //    product.Price = 5000;
+    //    context.SaveChanges();
+
+    //    transaction.Commit();
+    //}
+    //READ COMMITTED END
+
+    //REPEATABLE READ START
+    //güncel transaction içerisinde okuma yapılırken bir başka transaction update işlemi yapamamaktadır. Dolayısıyla unrepeatable problemi de oluşmamış olur.
+    //update ve delete olmaz.
+    //pahntom problemi oluşturmaktadır.
+
+    using (var transaction = context.Database.BeginTransaction(System.Data.IsolationLevel.RepeatableRead)) //data güncellerken buradaki gibi isolation level belirtmeye gerek yoktur. Burada okuma yapan yer kritik noktadır.
+                                                                                                          //Nerede okuma(read) yapılıyor ise orada isolation level belirtmemiz gerekmektedir. 
     {
-        var product = context.Products.First();
-        product.Price = 5000;
-        context.SaveChanges();
+      var product = context.Products.Take(2).ToList();
 
         transaction.Commit();
     }
 
-
-
-    //READ COMMITTED END
-
+    //REPEATABLE READ END
 
     //ISOLATION LEVELS END
 
