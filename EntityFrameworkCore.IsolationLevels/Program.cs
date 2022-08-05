@@ -24,6 +24,37 @@ using (var context = new AppDbContext())
     //phantom read >>> nonrepetable ile aynıdır, farklı bir mantığı yoktur. Burada ekleme(add) varken nonrepeatable reads'de ise güncelleme vardır.
     //Concurrency end
 
+    //Read Uncommitted start
+    using (var transaction = context.Database.BeginTransaction(System.Data.IsolationLevel.ReadUncommitted)) //data güncellerken buradaki gibi isolation level belirtmeye gerek yoktur. Burada okuma yapan yer kritik noktadır.
+        //Nerede okuma(read) yapılıyor ise orada isolation level belirtmemiz gerekmektedir. 
+    {
+        var categories = context.Categories.ToList(); //Eğer commit edilmemiş dataları da çekmek istersek isolation level'i yukarıda belirtmemiz gerekmektedir.
+        var product = context.Products.First();
+        product.Price = 653;
+        context.SaveChanges();
+
+        transaction.Commit();
+    }
+
+    using (var transaction2 = context.Database.BeginTransaction())
+    {
+        var product2 = context.Products.First();
+        product2.Price = 6000;
+        context.Products.Add(new Product() { Name = "Uncommit Kalem 1", Barcode = 000232, Price = 239, CategoryId = 1, DiscountPrice = 200, Stock = 586, URL = "uncomPen2231" });
+        context.SaveChanges();
+
+        transaction2.Commit();
+    }
+
+
+    //başka bir transaction ekleme, okuma, silme ve güncelleme yapabilir, herhangi bir lag olmaz. Fakat aynı satırı uncommit'teki bir transaction güncellerken başka bir transaction aynı satırı güncelleme yapamaz. Aynı satırı başka bir transaction güncelleme esnasında ve daha commit etmediğinde bir başka transaction aynı id'ye sahip alanı güncellerken lag olur.
+    
+    //>>>>>>>>>>
+    //önemli>>>>>>>>>>>>>>>>>>> phantom ve repeatable problemlerine sebep olmaktadır.
+    //>>>>>>>>>>
+    
+    //Read Uncommitted end
+
     //ISOLATION LEVELS END
 
 
