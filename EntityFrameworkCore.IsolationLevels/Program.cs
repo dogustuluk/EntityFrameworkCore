@@ -90,17 +90,38 @@ using (var context = new AppDbContext())
     //Repeatable ile yakın bir ilişki içerisindedir. hiç bir farkı yokttur. Tek bir artısı vardır ona göre, repeatable read'da update yapılamazken insert yapılıyordu bu durum da phantom problemine neden olmaktaydı. Bunda ise ne update ne de insert yapılabiliyor. Dolayısıyla phantom(insert olmadığı için) ve unrepeatable(update olmadığı için) problemleri oluşmuyor.
     //sadece commit edilen datayı okur, uncommit olanı okumaz.
 
-    using (var transaction = context.Database.BeginTransaction(System.Data.IsolationLevel.Serializable)) //data güncellerken buradaki gibi isolation level belirtmeye gerek yoktur. Burada okuma yapan yer kritik noktadır.
-                                                                                                           //Nerede okuma(read) yapılıyor ise orada isolation level belirtmemiz gerekmektedir. 
+    //using (var transaction = context.Database.BeginTransaction(System.Data.IsolationLevel.Serializable)) //data güncellerken buradaki gibi isolation level belirtmeye gerek yoktur. Burada okuma yapan yer kritik noktadır.
+    //                                                                                                       //Nerede okuma(read) yapılıyor ise orada isolation level belirtmemiz gerekmektedir. 
+    //{
+    //    var product = context.Products.ToList();
+
+    //    transaction.Commit();
+    //}
+
+
+    //SERIALIZABLE END
+
+    //SNAPSHOT START
+    //Snapshot isolation level'da bir transaction başladıktan sonra bir başka transaction bu başlayan transaction içerisindeki dataları günceller,siler veya eklerse ilgili transaction bunu gösteremez. dolayısıyla herhangi bir lag'lama olmaz.
+
+    //İlk olarak veri tabanında snapshot özelliğini açmamız lazım. >>>> alter database EntityFrameworkCoreCodeFirstDb set ALLOW_SNAPSHOT_ISOLATION on >> yazılır
+
+    using (var transaction = context.Database.BeginTransaction(System.Data.IsolationLevel.Snapshot))
     {
-        var product = context.Products.ToList();
+        var product = context.Products.AsNoTracking().ToList();
+        
+        //Arada farklı business kodlarının olduğunu varsay.
+        
+        
+        var product2 = context.Products.AsNoTracking().ToList();
+
+        //Arada farklı bir transaction'dan gelen data ekleme vs gibi olaylar olsa dahi product ile product2'deki datalar ilk hali gibi aynı olacaktır.
 
         transaction.Commit();
     }
 
 
-    //SERIALIZABLE END
-
+    //SNAPSHOT END
 
     //ISOLATION LEVELS END
 
