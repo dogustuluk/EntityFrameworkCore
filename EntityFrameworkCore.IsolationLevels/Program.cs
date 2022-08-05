@@ -76,17 +76,36 @@ using (var context = new AppDbContext())
     //update ve delete olmaz.
     //pahntom problemi oluşturmaktadır.
 
-    using (var transaction = context.Database.BeginTransaction(System.Data.IsolationLevel.RepeatableRead)) //data güncellerken buradaki gibi isolation level belirtmeye gerek yoktur. Burada okuma yapan yer kritik noktadır.
-                                                                                                          //Nerede okuma(read) yapılıyor ise orada isolation level belirtmemiz gerekmektedir. 
+    //using (var transaction = context.Database.BeginTransaction(System.Data.IsolationLevel.RepeatableRead)) //data güncellerken buradaki gibi isolation level belirtmeye gerek yoktur. Burada okuma yapan yer kritik noktadır.
+    //                                                                                                      //Nerede okuma(read) yapılıyor ise orada isolation level belirtmemiz gerekmektedir. 
+    //{
+    //  var product = context.Products.Take(2).ToList();
+
+    //    transaction.Commit();
+    //}
+
+    //REPEATABLE READ END
+
+    //SERIALIZABLE START
+    //Repeatable ile yakın bir ilişki içerisindedir. hiç bir farkı yokttur. Tek bir artısı vardır ona göre, repeatable read'da update yapılamazken insert yapılıyordu bu durum da phantom problemine neden olmaktaydı. Bunda ise ne update ne de insert yapılabiliyor. Dolayısıyla phantom(insert olmadığı için) ve unrepeatable(update olmadığı için) problemleri oluşmuyor.
+    //sadece commit edilen datayı okur, uncommit olanı okumaz.
+
+    using (var transaction = context.Database.BeginTransaction(System.Data.IsolationLevel.Serializable)) //data güncellerken buradaki gibi isolation level belirtmeye gerek yoktur. Burada okuma yapan yer kritik noktadır.
+                                                                                                           //Nerede okuma(read) yapılıyor ise orada isolation level belirtmemiz gerekmektedir. 
     {
-      var product = context.Products.Take(2).ToList();
+        var product = context.Products.ToList();
 
         transaction.Commit();
     }
 
-    //REPEATABLE READ END
+
+    //SERIALIZABLE END
+
 
     //ISOLATION LEVELS END
+
+    //Eğer tutarlılık önemli ise >>>>>>>>>>>> Isolation level arttır
+    //Eğer hız önemli ise >>>>>>>>>>>>>>>>>>> Isolation level düşür
 
 
     Console.WriteLine("İşlem Başarılı");
