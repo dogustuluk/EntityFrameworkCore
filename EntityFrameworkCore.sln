@@ -40,6 +40,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.Transac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.IsolationLevels", "EntityFrameworkCore.IsolationLevels\EntityFrameworkCore.IsolationLevels.csproj", "{3C6B074F-3D3F-45E5-A868-E60AA56313B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Concurrency.Web", "Concurrency.Web\Concurrency.Web.csproj", "{9BD97159-CEC3-48B1-BAE8-E8E6B37FEF95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -110,6 +112,10 @@ Global
 		{3C6B074F-3D3F-45E5-A868-E60AA56313B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C6B074F-3D3F-45E5-A868-E60AA56313B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C6B074F-3D3F-45E5-A868-E60AA56313B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BD97159-CEC3-48B1-BAE8-E8E6B37FEF95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BD97159-CEC3-48B1-BAE8-E8E6B37FEF95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BD97159-CEC3-48B1-BAE8-E8E6B37FEF95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BD97159-CEC3-48B1-BAE8-E8E6B37FEF95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
